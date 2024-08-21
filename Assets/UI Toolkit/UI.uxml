@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgb(255, 255, 255);">
+        <ui:VisualElement name="TopBar" style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 89%; background-color: rgb(255, 230, 247); color: rgb(254, 247, 255);">
+            <ui:VisualElement style="flex-grow: 1; position: absolute; left: 3%; top: 35%; right: 88%; bottom: 35%; background-image: url(&quot;project://database/Assets/Custom/54616_25397.png?fileID=2800000&amp;guid=4d33e24119b9195419f054d87c59783e&amp;type=3#54616_25397&quot;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            <ui:VisualElement style="flex-grow: 1; position: absolute; left: 89%; top: 35%; right: 3%; bottom: 35%; background-image: url(&quot;project://database/Assets/Custom/50731_13725.png?fileID=2800000&amp;guid=e302321d06d7d1847b7afbaae49e9be9&amp;type=3#50731_13725&quot;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:TextField picking-mode="Ignore" style="position: absolute; left: 15%; top: 2%; right: 15%; bottom: 91%; font-size: 90%; -unity-text-align: upper-left; -unity-background-image-tint-color: rgb(243, 237, 247);" />
+    </ui:VisualElement>
+</ui:UXML>
