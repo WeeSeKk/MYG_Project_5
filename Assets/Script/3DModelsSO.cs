@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SpawnManagerScriptableObject : ScriptableObject
 {
     public GameObject model3D;
-    public Image modelImage;
+    public Texture2D modelImage;
     public string productName;
     public string productDescription;
     public float productPrice;

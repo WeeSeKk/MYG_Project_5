@@ -143,6 +143,7 @@ public class ARUIManager : MonoBehaviour
             }
             else
             {
+                ScreenTap();
                 container.SetActive(false);
             }
         }
@@ -182,6 +183,8 @@ public class ARUIManager : MonoBehaviour
 
     void ScreenTap()
     {
+        modelInfo = this.transform.GetChild(1).gameObject.GetComponent<Image>();
+        modelInfo.gameObject.SetActive(false);
         rotateButton.gameObject.SetActive(true);
         deleteButton.gameObject.SetActive(true);
         dragButton.gameObject.SetActive(true);

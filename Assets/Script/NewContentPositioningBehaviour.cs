@@ -21,8 +21,7 @@ public class NewContentPositioningBehaviour : VuforiaMonoBehaviour
 
         if (!groundPlanePlaced)
         {
-            //anchorStage.ConfigureAnchor("Ground Plane", hit);
-            VuforiaBehaviour.Instance.ObserverFactory.CreateAnchorBehaviour("Ground Plane", hit);
+            anchorStage = VuforiaBehaviour.Instance.ObserverFactory.CreateAnchorBehaviour("Ground Plane", hit);
             
             if (_3DModel.transform.childCount == 0)
             {
