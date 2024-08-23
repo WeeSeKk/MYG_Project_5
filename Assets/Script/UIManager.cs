@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] VisualTreeAsset productTemplate;
     [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
     ScrollView _0gridContainer;
-    VisualElement gridContainer;
     VisualElement loadingView;
     ScrollView productPage;
     VisualElement productImage;
@@ -21,13 +21,20 @@ public class UIManager : MonoBehaviour
     VisualElement root;
     Button arButton;
     Button returnButton;
+    Button modelButton;
     Button returnARButton;
+    Button cartButton;
+    Button buyButton;
+    VisualElement productInfoImage;
+    Label productNameInfo;
+    Label productDescriptionInfo;
+    Label productPriceInfo;
     bool productLoaded;
+    string _productID;
 
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
-        gridContainer = root.Q<VisualElement>("GridContainer");
         _0gridContainer = root.Q<ScrollView>("0GridContainer");
         productPage = root.Q<ScrollView>("ProductPage");
         productImage = root.Q<VisualElement>("ProductImage");
@@ -40,7 +47,13 @@ public class UIManager : MonoBehaviour
         returnButton = root.Q<Button>("ReturnButton");
         returnARButton = root.Q<Button>("ReturnARButton");
         loadingView = root.Q<VisualElement>("LoadingView");
-
+        modelButton = root.Q<Button>("ModelButton");
+        buyButton = root.Q<Button>("BuyButton");
+        cartButton = root.Q<Button>("AddToCartButton");
+        productInfoImage = root.Q<VisualElement>("ProductImageInfo");
+        productNameInfo = root.Q<Label>("ProductNameInfo");
+        productDescriptionInfo = root.Q<Label>("ProductDescriptionInfo");
+        productPriceInfo = root.Q<Label>("ProductPriceInfo");
 
         AddTemplateToGrid(productTemplate);
 
@@ -62,6 +75,14 @@ public class UIManager : MonoBehaviour
         returnARButton.RegisterCallback<ClickEvent>(evt =>
         {
             StartCoroutine(LoadARScene());
+        });
+
+        modelButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            NewContentPositioningBehaviour newContentPositioningBehaviour = GameObject.Find("Plane Finder").GetComponent<NewContentPositioningBehaviour>();
+            _3DModelsManager _3DModelsManager = GameObject.Find("3DModel").GetComponent<_3DModelsManager>();
+            newContentPositioningBehaviour.HitTest();
+            _3DModelsManager.UnloadPreview();
         });
 
         arView.pickingMode = PickingMode.Ignore;
@@ -145,12 +166,15 @@ public class UIManager : MonoBehaviour
         if (productID == "00")
         {
             productPage.RemoveFromClassList("ProductPageVisible");
+            buyButton.AddToClassList("ButtonHidden2");
+            cartButton.AddToClassList("ButtonHidden2");
             return;
         }
         for (int i = 0; i < scriptableObjects.Count; i++)
         {
             if (scriptableObjects[i].modelID == productID)
             {
+                _productID = scriptableObjects[i].modelID;
                 productImage.style.backgroundImage = scriptableObjects[i].modelImage;
                 productName.text = scriptableObjects[i].productName;
                 productPrice.text = scriptableObjects[i].productPrice.ToString();
@@ -158,6 +182,8 @@ public class UIManager : MonoBehaviour
             }
         }
         productPage.AddToClassList("ProductPageVisible");
+        buyButton.RemoveFromClassList("ButtonHidden2");
+        cartButton.RemoveFromClassList("ButtonHidden2");
     }
 
     IEnumerator LoadARScene()
@@ -174,6 +200,19 @@ public class UIManager : MonoBehaviour
             loadingView.RemoveFromClassList("LoadingViewHidden");
             yield return SceneManager.LoadSceneAsync("ARScene", LoadSceneMode.Additive);
             loadingView.AddToClassList("LoadingViewHidden");
+            modelButton.pickingMode = PickingMode.Position;
+
+            for (int i = 0; i < scriptableObjects.Count; i++)
+            {
+                if (scriptableObjects[i].modelID == _productID)
+                {
+                    productInfoImage.style.backgroundImage = scriptableObjects[i].modelImage;
+                    productNameInfo.text = scriptableObjects[i].productName;
+                    productPriceInfo.text = scriptableObjects[i].productPrice.ToString();
+                    productDescriptionInfo.text = scriptableObjects[i].productDescription;
+                    break;
+                }
+            }
         }
         else
         {
@@ -187,6 +226,7 @@ public class UIManager : MonoBehaviour
             loadingView.RemoveFromClassList("LoadingViewHidden");
             yield return SceneManager.UnloadSceneAsync("ARScene");
             loadingView.AddToClassList("LoadingViewHidden");
+            modelButton.pickingMode = PickingMode.Ignore;
         }
     }
 }

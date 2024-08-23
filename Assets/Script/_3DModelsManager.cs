@@ -12,7 +12,10 @@ public class _3DModelsManager : MonoBehaviour
     [SerializeField] Canvas canvas;
     [SerializeField] Camera _camera;
     [SerializeField] GameObject modelUI;
+    [SerializeField] GameObject modelPreview;
+    [SerializeField] Material materialPreview;
     GameObject modelContainer;
+    GameObject previewModel;
     Image modelInfo;
     TMP_Text tMP_TextName;
     TMP_Text tMP_TextDescription;
@@ -20,7 +23,7 @@ public class _3DModelsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Invoke("LoadPreview", 0.2f);
     }
 
     public void InstantiateModel(int type, Vector3 pos, Quaternion rot)
@@ -39,6 +42,8 @@ public class _3DModelsManager : MonoBehaviour
         tMP_TextDescription = modelInfo.transform.GetChild(2).GetComponent<TMP_Text>();
         tMP_TextName.text = scriptableObjects[type].productName;
         tMP_TextDescription.text = scriptableObjects[type].productDescription;
+        Image infoImage = modelInfo.transform.GetChild(0).GetComponent<Image>();
+        
     }
 
     public GameObject Model()
@@ -83,6 +88,23 @@ public class _3DModelsManager : MonoBehaviour
                 child.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void LoadPreview()
+    {
+        Transform previewPlace = GameObject.Find("DefaultPlaneIndicator_URP(Clone)").GetComponent<Transform>();
+        GameObject baseIndicator = GameObject.Find("DefaultIndicator");
+        baseIndicator.SetActive(false);
+
+        previewModel = Instantiate(scriptableObjects[2].model3D, previewPlace.transform.position, previewPlace.transform.rotation, previewPlace.transform);
+        
+        MeshRenderer renderer = previewModel.GetComponent<MeshRenderer>();
+        renderer.material = materialPreview;
+    }
+
+    public void UnloadPreview()
+    {
+        Destroy(previewModel);
     }
 
     public void DestroyModel(GameObject model, GameObject uiContainer)

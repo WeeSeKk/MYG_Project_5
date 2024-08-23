@@ -112,6 +112,7 @@ public class ARUIManager : MonoBehaviour
             infoButton.gameObject.SetActive(false);
 
             leanDragTranslate.enabled = true;
+            leanDragTranslate.Camera = _camera;
         }
         else
         {
