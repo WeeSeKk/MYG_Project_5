@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/AppUI.uss?fileID=7433441132597879392&amp;guid=64819efea286cf54bb16436b4f7ea1b9&amp;type=3#AppUI" />
+    <ui:VisualElement name="ProductTemplate" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; max-width: 100%; min-width: 100%; min-height: 100%; max-height: 100%;">
+        <ui:VisualElement name="ProductImage" style="flex-grow: 1; position: absolute; left: 10%; top: 5%; right: 65%; bottom: 16%; background-color: rgb(255, 255, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;">
+            <ui:Label tabindex="-1" text="ProductName" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductName" style="position: absolute; left: 105%; top: 2%; right: -170%; bottom: 87%; -unity-text-align: middle-left; font-size: 26px;" />
+            <ui:Label tabindex="-1" text="ProductDescription" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductDescription" style="position: absolute; left: 105%; top: 22%; right: -170%; bottom: 23%; -unity-text-align: upper-left; text-overflow: ellipsis; font-size: 20px;" />
+            <ui:Label tabindex="-1" text="ProductPrice" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductPrice" style="position: absolute; left: 105%; top: 84%; right: -170%; bottom: 1%; -unity-text-align: middle-left; font-size: 27px;" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductButtonAR" class="ProductButtonAR" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="FavoriteButtonAR" class="FavoriteButtonAR" />
+            <ui:Label tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductID" picking-mode="Ignore" style="position: absolute; left: 0; top: 0; right: 0; bottom: 89%; -unity-text-align: lower-left; display: none;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

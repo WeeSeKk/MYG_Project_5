@@ -13,4 +13,5 @@ public class SpawnManagerScriptableObject : ScriptableObject
     public string productDescription;
     public float productPrice;
     public string modelID;
+    public int productID;
 }

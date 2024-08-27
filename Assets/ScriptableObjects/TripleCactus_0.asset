@@ -17,4 +17,5 @@ MonoBehaviour:
   productName: Triple Cactus
   productDescription: This is a cactus. x3
   productPrice: 49.99
-  modelID: 01
+  modelID: 2
+  productID: 2

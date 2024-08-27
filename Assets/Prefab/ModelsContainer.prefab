@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5812989589244927302}
   - component: {fileID: 1255144187408748598}
-  - component: {fileID: 4749511483634042830}
   - component: {fileID: 81569758794372271}
   m_Layer: 0
   m_Name: ModelsContainer
@@ -57,27 +56,6 @@ MonoBehaviour:
   damping: -1
   inertia: 0
   remainingTranslation: {x: 0, y: 0, z: 0}
---- !u!114 &4749511483634042830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4308099233706906512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc7c91b26689a054d88448aba6dfe424, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Use:
-    Filter: 0
-    IgnoreStartedOverGui: 1
-    RequiredFingerCount: 0
-    RequiredMouseButtons: 0
-    RequiredSelectable: {fileID: 0}
-  axis: {x: 0, y: -1, z: 0}
-  space: 1
-  sensitivity: 1
 --- !u!114 &81569758794372271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,3 +68,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd91fc96f4e983b46b9121279f07425a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotateSpeed: -0.15

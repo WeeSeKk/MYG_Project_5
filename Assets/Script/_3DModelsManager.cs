@@ -23,7 +23,7 @@ public class _3DModelsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("LoadPreview", 0.2f);
+        //Invoke("LoadPreview", 0.2f);
     }
 
     public void InstantiateModel(int type, Vector3 pos, Quaternion rot)
@@ -43,7 +43,7 @@ public class _3DModelsManager : MonoBehaviour
         tMP_TextName.text = scriptableObjects[type].productName;
         tMP_TextDescription.text = scriptableObjects[type].productDescription;
         Image infoImage = modelInfo.transform.GetChild(0).GetComponent<Image>();
-        
+
     }
 
     public GameObject Model()
@@ -90,21 +90,28 @@ public class _3DModelsManager : MonoBehaviour
         }
     }
 
-    public void LoadPreview()
+    public void LoadPreview(int modelID)
     {
         Transform previewPlace = GameObject.Find("DefaultPlaneIndicator_URP(Clone)").GetComponent<Transform>();
         GameObject baseIndicator = GameObject.Find("DefaultIndicator");
-        baseIndicator.SetActive(false);
 
-        previewModel = Instantiate(scriptableObjects[2].model3D, previewPlace.transform.position, previewPlace.transform.rotation, previewPlace.transform);
+        if (baseIndicator != null)
+        {
+            baseIndicator.SetActive(false);
+        }
         
+        previewModel = Instantiate(scriptableObjects[modelID].model3D, previewPlace.transform.position, previewPlace.transform.rotation, previewPlace.transform);
+
         MeshRenderer renderer = previewModel.GetComponent<MeshRenderer>();
         renderer.material = materialPreview;
     }
 
     public void UnloadPreview()
     {
-        Destroy(previewModel);
+        if (previewModel != null)
+        {
+            Destroy(previewModel);
+        }
     }
 
     public void DestroyModel(GameObject model, GameObject uiContainer)
@@ -115,6 +122,20 @@ public class _3DModelsManager : MonoBehaviour
             {
                 Destroy(child.gameObject);
                 Destroy(uiContainer.gameObject);
+                break;
+            }
+        }
+    }
+
+    public void ChangeModel(string modelID)
+    {
+        for (int i = 0; i < scriptableObjects.Count; i++)
+        {
+            if (scriptableObjects[i].modelID == modelID)
+            {
+                UnloadPreview();
+                EventManager.ScreenTapEvent();
+                LoadPreview(i);
                 break;
             }
         }

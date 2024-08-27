@@ -7,6 +7,8 @@ public class ModelManager : MonoBehaviour
 {
     LeanDragTranslate dragTranslate;
     Vector3 originalTransform;
+    public float rotateSpeed = -0.3f;
+    public bool rotate;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +21,22 @@ public class ModelManager : MonoBehaviour
     void Update()
     {
         Vector3 position = transform.position;
-        position.y = originalTransform.y; 
+        position.y = originalTransform.y;
         transform.position = position;
+
+        TouchRotate();
+    }
+
+    void TouchRotate()
+    {
+        if (LeanTouch.Fingers.Count == 1 && rotate)
+        {
+            LeanFinger finger = LeanTouch.Fingers[0];
+
+            if (finger.StartedOverGui == false)
+            {
+                transform.Rotate(Vector3.up, finger.ScaledDelta.x * rotateSpeed);
+            }
+        }
     }
 }

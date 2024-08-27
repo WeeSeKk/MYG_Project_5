@@ -27,7 +27,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(188, 188, 188, 0);
+    background-color: rgba(255, 255, 255, 0);
     border-left-color: rgba(149, 149, 149, 0);
     border-right-color: rgba(149, 149, 149, 0);
     border-top-color: rgba(149, 149, 149, 0);
@@ -120,4 +120,147 @@
 
 .LoadingViewHidden {
     opacity: 0;
+}
+
+.CategoryView {
+    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    top: 11%;
+    right: 33%;
+    bottom: 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.CategoryViewHidden {
+    left: -77%;
+    right: 100%;
+}
+
+.unity-text-element--inner-input-field-component {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.unity-base-text-field__input {
+    background-color: rgb(231, 204, 222);
+}
+
+.ProductInfoBase {
+    flex-grow: 1;
+    position: absolute;
+    left: 32%;
+    top: 88%;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 255, 255);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.ProductListBase {
+    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    top: 40%;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: rgb(255, 255, 255);
+}
+
+.ProductListHidden {
+    top: 100%;
+    bottom: -60%;
+}
+
+.ScrollListDefault {
+    position: absolute;
+    left: 0;
+    top: 33%;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: rgb(255, 247, 252);
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    align-self: flex-start;
+}
+
+.GridContainerDefault {
+    position: absolute;
+    left: 0;
+    top: 11%;
+    right: -2%;
+    bottom: 0;
+    align-items: stretch;
+    align-self: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+}
+
+.ProductButtonAR {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(188, 188, 188, 0);
+    border-left-color: rgba(149, 149, 149, 0);
+    border-right-color: rgba(149, 149, 149, 0);
+    border-top-color: rgba(149, 149, 149, 0);
+    border-bottom-color: rgba(149, 149, 149, 0);
+}
+
+.FavoriteButtonAR {
+    position: absolute;
+    left: 84%;
+    top: 85%;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(188, 188, 188, 0);
+    border-left-color: rgba(149, 149, 149, 0);
+    border-right-color: rgba(149, 149, 149, 0);
+    border-top-color: rgba(149, 149, 149, 0);
+    border-bottom-color: rgba(149, 149, 149, 0);
+    background-image: url("project://database/Assets/_Heathen%20Engineering/Assets/UX/Icons/Flat%20Icons%20[Free]/Free%20Flat%20Heart%20Empty%20Icon.png?fileID=2800000&guid=2b128a5e4d59a054e9193a83052697e3&type=3#Free Flat Heart Empty Icon");
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+}
+
+.AccountVisualBase {
+    flex-grow: 1;
+    position: absolute;
+    left: 21%;
+    top: 11%;
+    right: 0;
+    bottom: 42%;
+    background-color: rgb(255, 251, 254);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+}
+
+.AccountVisualHidden {
+    right: -79%;
+    left: 100%;
 }

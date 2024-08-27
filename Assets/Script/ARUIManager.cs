@@ -15,17 +15,12 @@ public class ARUIManager : MonoBehaviour
     [SerializeField] Camera _camera;
     _3DModelsManager _3DModelsManager;
     GameObject linkedGameobject;
+    ModelManager modelManager;
     Quaternion originalRotation;
     Image modelInfo;
     LeanDragTranslate leanDragTranslate;
-    LeanTwistRotateAxis leanTwistRotateAxis;
+    LeanTouch leanTouch;
     bool showInfo;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     void OnEnable()
     {
@@ -41,10 +36,8 @@ public class ARUIManager : MonoBehaviour
         container.SetActive(false);
 
         leanDragTranslate = linkedGameobject.GetComponent<LeanDragTranslate>();
-        leanTwistRotateAxis = linkedGameobject.GetComponent<LeanTwistRotateAxis>();
 
         leanDragTranslate.enabled = false;
-        leanTwistRotateAxis.enabled = false;
 
         originalRotation = transform.rotation;
     }
@@ -63,7 +56,6 @@ public class ARUIManager : MonoBehaviour
         modelInfo = null;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (linkedGameobject != null)
@@ -72,7 +64,6 @@ public class ARUIManager : MonoBehaviour
         }
 
         //transform.rotation = _camera.transform.rotation * originalRotation;
-
     }
 
     public void DeleteModel()
@@ -82,14 +73,16 @@ public class ARUIManager : MonoBehaviour
 
     public void RotateModel()
     {
-        if (leanTwistRotateAxis.enabled == false)
+        modelManager = linkedGameobject.GetComponent<ModelManager>();
+
+        if (modelManager.rotate == false)
         {
             deleteButton.gameObject.SetActive(false);
             dragButton.gameObject.SetActive(false);
             cartButton.gameObject.SetActive(false);
             infoButton.gameObject.SetActive(false);
 
-            leanTwistRotateAxis.enabled = true;
+            modelManager.rotate = true;
         }
         else
         {
@@ -98,7 +91,7 @@ public class ARUIManager : MonoBehaviour
             cartButton.gameObject.SetActive(true);
             infoButton.gameObject.SetActive(true);
 
-            leanTwistRotateAxis.enabled = false;
+            modelManager.rotate = false;
         }
     }
 
@@ -127,13 +120,6 @@ public class ARUIManager : MonoBehaviour
 
     public void ShowHideModelUI(GameObject gameObject)
     {
-        /*if (linkedGameobject == null)
-        {
-            linkedGameobject = gameObject.transform.parent.gameObject;
-            Debug.Log("linkedGameobject");
-            return;
-        }*/
-
         GameObject model = linkedGameobject.transform.GetChild(0).gameObject;
 
         if (model == gameObject)
@@ -193,7 +179,12 @@ public class ARUIManager : MonoBehaviour
         infoButton.gameObject.SetActive(true);
 
         leanDragTranslate.enabled = false;
-        leanTwistRotateAxis.enabled = false;
+        
+        if (modelManager != null)
+        {
+            modelManager.rotate = false;
+        }
+        
 
         if (container.activeSelf == true)
         {
