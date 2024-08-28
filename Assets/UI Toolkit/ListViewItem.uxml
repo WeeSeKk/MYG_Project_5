@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/AppUI.uss?fileID=7433441132597879392&amp;guid=64819efea286cf54bb16436b4f7ea1b9&amp;type=3#AppUI" />
+    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="CategoryItemButton" class="CategoryItemButton" style="font-size: 70%;" />
+</ui:UXML>

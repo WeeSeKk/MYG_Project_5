@@ -443,9 +443,13 @@ MonoBehaviour:
     type: 3}
   productTemplateAR: {fileID: 9197481963319205126, guid: 8348183891cb80340928dc7279e8fd1f,
     type: 3}
+  listViewItem: {fileID: 9197481963319205126, guid: ef34cfcc403624c4296beacd7030671d,
+    type: 3}
   scriptableObjects:
   - {fileID: 11400000, guid: aa1c2172a194d904eb6950d96628c5db, type: 2}
   - {fileID: 11400000, guid: e2705b71155a7024c87e99a555722c46, type: 2}
+  categorySO:
+  - {fileID: 11400000, guid: 257f88a7919e9f142a73e0c9a4fb409e, type: 2}
 --- !u!1 &2015690491
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,17 +480,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIManager: {fileID: 544945957}
-  scriptableObjects:
-  - {fileID: 11400000, guid: e2705b71155a7024c87e99a555722c46, type: 2}
-  - {fileID: 11400000, guid: 5b33a91a147796f4da4ee5099e4e9cbb, type: 2}
-  - {fileID: 11400000, guid: aa1c2172a194d904eb6950d96628c5db, type: 2}
-  - {fileID: 11400000, guid: b76f65b2cd8038e4d9e16a0a60325222, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!4 &2015690493
 Transform:
   m_ObjectHideFlags: 0

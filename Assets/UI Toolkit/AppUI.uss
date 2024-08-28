@@ -142,7 +142,11 @@
 }
 
 .unity-base-text-field__input {
-    background-color: rgb(231, 204, 222);
+    background-color: rgb(243, 237, 247);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
 }
 
 .ProductInfoBase {
@@ -263,4 +267,38 @@
 .AccountVisualHidden {
     right: -79%;
     left: 100%;
+}
+
+.LoginViewBase {
+    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    top: 11%;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.LoginViewHidden {
+    right: -100%;
+    bottom: 0;
+    left: 100%;
+}
+
+#CategoryView #unity-content-container.unity-scroll-view__content-container {
+    flex-direction: column;
+}
+
+.CategoryItemButton {
+    background-color: rgba(188, 188, 188, 0);
+    border-left-color: rgba(149, 149, 149, 0);
+    border-right-color: rgba(149, 149, 149, 0);
+    border-top-color: rgba(149, 149, 149, 0);
+    border-bottom-color: rgba(149, 149, 149, 0);
+    font-size: 59%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }

@@ -8,7 +8,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] VisualTreeAsset productTemplate;
     [SerializeField] VisualTreeAsset productTemplateAR;
+    [SerializeField] VisualTreeAsset listViewItem;
     [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
+    [SerializeField] public List<CategoryScriptableObject> categorySO;
+    List<string> categoryList = new List<string>();
     _3DModelsManager _3DModelsManager;
     ScrollView _0gridContainer;
     VisualElement loadingView;
@@ -24,6 +27,7 @@ public class UIManager : MonoBehaviour
     ScrollView scrollListAR;
     VisualElement productListAR;
     VisualElement accountInfo;
+    VisualElement loginView;
     Button arButton;
     Button returnButton;
     Button modelButton;
@@ -34,6 +38,8 @@ public class UIManager : MonoBehaviour
     Button categoryButton;
     Button closeARListButton;
     Button userButton;
+    Button returnButtonLogin;
+    Button loginButton;
     VisualElement productInfoImage;
     Label productNameInfo;
     Label productDescriptionInfo;
@@ -41,6 +47,8 @@ public class UIManager : MonoBehaviour
     Label productNameInfoList;
     Label productDescriptionInfoList;
     Label productPriceInfo;
+    TreeView categoryTreeView;
+    ListView categoryListView;
     bool productLoaded;
     string _productID;
     int modelID;
@@ -78,6 +86,11 @@ public class UIManager : MonoBehaviour
         productDescriptionInfoList = root.Q<Label>("ProductDescriptionInfoList");
         userButton = root.Q<Button>("UserButton");
         accountInfo = root.Q<VisualElement>("AccountVisual");
+        loginButton = root.Q<Button>("LoginButton");
+        loginView = root.Q<VisualElement>("LoginView");
+        returnButtonLogin = root.Q<Button>("ReturnButtonLogin");
+        categoryTreeView = root.Q<TreeView>("CategoryTreeView");
+        categoryListView = root.Q<ListView>("CategoryListView");
 
         AddTemplateToGrid(_0gridContainer);
         AddTemplateToGrid(scrollListAR);
@@ -130,7 +143,15 @@ public class UIManager : MonoBehaviour
             ShowHideAccountInfo();
         });
 
-        
+        loginButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            ShowHideLoginView(loginButton);
+        });
+
+        returnButtonLogin.RegisterCallback<ClickEvent>(evt =>
+        {
+            ShowHideLoginView(returnButtonLogin);
+        });
     }
 
     void OnButtonClick(Button button)
@@ -160,6 +181,18 @@ public class UIManager : MonoBehaviour
         else if (button.name == "FavoriteButtonAR")
         {
             Debug.Log("Favorite Button AR");
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))//test for debug
+        {
+            AddToCategoryList();//SetupCategoryButtons
+        }
+        if (Input.GetKeyDown("w"))//test for debug
+        {
+            SetupCategoryButtons();
         }
     }
 
@@ -296,6 +329,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void ShowHideLoginView(Button button)
+    {
+        if (loginView.ClassListContains("LoginViewHidden"))
+        {
+            loginView.RemoveFromClassList("LoginViewHidden");
+            ShowHideAccountInfo();
+        }
+        else if (!loginView.ClassListContains("LoginViewHidden") && button == loginButton)
+        {
+            ShowHideAccountInfo();
+        }
+        else if (button != loginButton)
+        {
+            loginView.AddToClassList("LoginViewHidden");
+        }
+    }
+
+    public void LoadingScreen()
+    {
+        if (loadingView.ClassListContains("LoadingViewHidden"))
+        {
+            loadingView.RemoveFromClassList("LoadingViewHidden");
+        }
+        else
+        {
+            loadingView.AddToClassList("LoadingViewHidden");
+        }
+    }
+
     void ShowHideProductPage(string productID)
     {
         if (productID == "00")
@@ -365,15 +427,76 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void LoadingScreen()
+    public void AddToCategoryList()
     {
-        if (loadingView.ClassListContains("LoadingViewHidden"))
+        for (int i = 0; i < categorySO.Count; i ++)
         {
-            loadingView.RemoveFromClassList("LoadingViewHidden");
+            categoryList.Add(categorySO[i].categoryHeader);
+
+            for (int a = 0; a < categorySO[i].categoryItems.Count; a ++)
+            {
+                categoryList.Add(categorySO[i].categoryItems[a]);
+            }
         }
-        else
+        UpdateCategoryList();
+    }
+
+    void UpdateCategoryList()
+    {
+        categoryListView.Clear();
+        categoryListView.itemsSource = categoryList;
+        
+        for (int i = 0; i < categorySO.Count; i++)
         {
-            loadingView.AddToClassList("LoadingViewHidden");
+            categoryListView.makeItem = () =>
+            {
+                var element = listViewItem.CloneTree();
+                element.style.flexDirection = FlexDirection.Column;
+                return element;
+            };
+
+            categoryListView.bindItem = (element, index) =>
+            {
+                var item = element.Q<Button>();
+                item.style.width = new Length(100, LengthUnit.Percent);
+                item.style.unityTextAlign = TextAnchor.MiddleLeft;
+                item.text = $"{categorySO[i].categoryHeader[index]}";
+            };
+
+            for (int a = 0; a < categorySO[i].categoryItems.Count; a++)
+            {
+                categoryListView.makeItem = () =>
+                {
+                    var element = listViewItem.CloneTree();
+                    element.style.flexDirection = FlexDirection.Column;
+                    return element;
+                };
+
+                categoryListView.bindItem = (element, index) =>
+                {
+                    var item = element.Q<Button>();
+                    item.style.width = new Length(100, LengthUnit.Percent);
+                    item.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    item.text = $"{categorySO[i].categoryItems[a][index]}";
+                };
+            }
         }
+        categoryListView.fixedItemHeight = 60;
+        categoryListView.Rebuild();
+    }
+
+    void SetupCategoryButtons()
+    {
+        var categoryButtons = root.Query<Button>(className: "CategoryItemButton").ToList();
+
+        foreach (var button in categoryButtons)
+        {
+            button.clicked += () => OnCategoryButtonClicked(button);
+        }
+    }
+
+    void OnCategoryButtonClicked(Button button)
+    {
+        Debug.Log(button.name);
     }
 }
