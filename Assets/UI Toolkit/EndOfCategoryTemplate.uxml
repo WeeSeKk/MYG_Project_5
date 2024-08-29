@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/AppUI.uss?fileID=7433441132597879392&amp;guid=64819efea286cf54bb16436b4f7ea1b9&amp;type=3#AppUI" />
+    <ui:VisualElement style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-image: none;">
+        <ui:VisualElement style="flex-grow: 1; position: absolute; left: 0; top: 45%; right: 0; bottom: 45%; background-image: url(&quot;project://database/Assets/Custom/51816_5860.png?fileID=2800000&amp;guid=f2633b5e0e5cec64ca52e466166360fc&amp;type=3#51816_5860&quot;);" />
+    </ui:VisualElement>
+</ui:UXML>

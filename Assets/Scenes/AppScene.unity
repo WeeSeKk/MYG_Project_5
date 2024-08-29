@@ -445,11 +445,16 @@ MonoBehaviour:
     type: 3}
   listViewItem: {fileID: 9197481963319205126, guid: ef34cfcc403624c4296beacd7030671d,
     type: 3}
+  endOfCategory: {fileID: 9197481963319205126, guid: 62f3d9eb49efe7742b8508afac5b4628,
+    type: 3}
   scriptableObjects:
   - {fileID: 11400000, guid: aa1c2172a194d904eb6950d96628c5db, type: 2}
   - {fileID: 11400000, guid: e2705b71155a7024c87e99a555722c46, type: 2}
   categorySO:
   - {fileID: 11400000, guid: 257f88a7919e9f142a73e0c9a4fb409e, type: 2}
+  - {fileID: 11400000, guid: 0543370599e019247810a98e8d3b1689, type: 2}
+  - {fileID: 11400000, guid: e3df959924ff76442a4e291e68b20388, type: 2}
+  - {fileID: 11400000, guid: 91bbc2002b4197447b9951ec1dce2ec5, type: 2}
 --- !u!1 &2015690491
 GameObject:
   m_ObjectHideFlags: 0

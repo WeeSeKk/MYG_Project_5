@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] VisualTreeAsset productTemplate;
     [SerializeField] VisualTreeAsset productTemplateAR;
     [SerializeField] VisualTreeAsset listViewItem;
+    [SerializeField] VisualTreeAsset endOfCategory;
     [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
     [SerializeField] public List<CategoryScriptableObject> categorySO;
     List<string> categoryList = new List<string>();
@@ -16,6 +17,7 @@ public class UIManager : MonoBehaviour
     ScrollView _0gridContainer;
     VisualElement loadingView;
     ScrollView productPage;
+    ScrollView categoryScrollView;
     VisualElement productImage;
     VisualElement appView;
     VisualElement arView;
@@ -28,8 +30,10 @@ public class UIManager : MonoBehaviour
     VisualElement productListAR;
     VisualElement accountInfo;
     VisualElement loginView;
+    VisualElement registerView;
     Button arButton;
     Button returnButton;
+    Button returnButtonRegister;
     Button modelButton;
     Button productListInfoButton;
     Button returnARButton;
@@ -40,6 +44,7 @@ public class UIManager : MonoBehaviour
     Button userButton;
     Button returnButtonLogin;
     Button loginButton;
+    Button registerButton;
     VisualElement productInfoImage;
     Label productNameInfo;
     Label productDescriptionInfo;
@@ -91,8 +96,13 @@ public class UIManager : MonoBehaviour
         returnButtonLogin = root.Q<Button>("ReturnButtonLogin");
         categoryTreeView = root.Q<TreeView>("CategoryTreeView");
         categoryListView = root.Q<ListView>("CategoryListView");
+        categoryScrollView = root.Q<ScrollView>("CategoryScrollView");
+        registerButton = root.Q<Button>("RegisterButton");
+        registerView = root.Q<VisualElement>("RegisterView");
+        returnButtonRegister = root.Q<Button>("ReturnButtonRegister");
 
         AddTemplateToGrid(_0gridContainer);
+        AddCategoryToList();
         AddTemplateToGrid(scrollListAR);
 
         if (productLoaded)
@@ -152,6 +162,16 @@ public class UIManager : MonoBehaviour
         {
             ShowHideLoginView(returnButtonLogin);
         });
+
+        registerButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            ShowHideRegisterView(loginButton);
+        });
+
+        returnButtonRegister.RegisterCallback<ClickEvent>(evt =>
+        {
+            ShowHideRegisterView(returnButtonRegister);
+        });
     }
 
     void OnButtonClick(Button button)
@@ -181,18 +201,6 @@ public class UIManager : MonoBehaviour
         else if (button.name == "FavoriteButtonAR")
         {
             Debug.Log("Favorite Button AR");
-        }
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))//test for debug
-        {
-            AddToCategoryList();//SetupCategoryButtons
-        }
-        if (Input.GetKeyDown("w"))//test for debug
-        {
-            SetupCategoryButtons();
         }
     }
 
@@ -240,6 +248,49 @@ public class UIManager : MonoBehaviour
                 count++;
             }
         }
+    }
+
+    void AddCategoryToList()
+    {
+        for (int i = 0; i < categorySO.Count; i++)
+        {
+            VisualElement templateInstance = listViewItem.Instantiate();
+
+            templateInstance.style.width = new Length(100, LengthUnit.Percent);
+            templateInstance.style.height = new Length(5, LengthUnit.Percent);
+            templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+            Button button = templateInstance.Q<Button>("CategoryItemButton");
+            button.text = categorySO[i].categoryHeader + " :";
+            button.style.fontSize = 70;
+            Debug.Log(button.text);
+
+            categoryScrollView.Add(templateInstance);
+
+            for (int a = 0; a < categorySO[i].categoryItems.Count; a++)
+            {
+                templateInstance = listViewItem.Instantiate();
+
+                templateInstance.style.width = new Length(100, LengthUnit.Percent);
+                templateInstance.style.height = new Length(5, LengthUnit.Percent);
+                templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+                button = templateInstance.Q<Button>("CategoryItemButton");
+                button.text = categorySO[i].categoryItems[a];
+                button.style.fontSize = 50;
+
+                categoryScrollView.Add(templateInstance);
+            }
+
+            templateInstance = endOfCategory.Instantiate();
+
+            templateInstance.style.width = new Length(100, LengthUnit.Percent);
+            templateInstance.style.height = new Length(3, LengthUnit.Percent);
+            templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+            categoryScrollView.Add(templateInstance);
+        }
+        SetupCategoryButtons();
     }
 
     void SetupButtons(int scene)
@@ -346,6 +397,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void ShowHideRegisterView(Button button)
+    {
+        if (registerView.ClassListContains("LoginViewHidden"))
+        {
+            registerView.RemoveFromClassList("LoginViewHidden");
+            ShowHideAccountInfo();
+        }
+        else if (!registerView.ClassListContains("LoginViewHidden") && button == registerButton)
+        {
+            ShowHideAccountInfo();
+        }
+        else if (button != loginButton)
+        {
+            registerView.AddToClassList("LoginViewHidden");
+        }
+    }
+
     public void LoadingScreen()
     {
         if (loadingView.ClassListContains("LoadingViewHidden"))
@@ -427,64 +495,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void AddToCategoryList()
-    {
-        for (int i = 0; i < categorySO.Count; i ++)
-        {
-            categoryList.Add(categorySO[i].categoryHeader);
-
-            for (int a = 0; a < categorySO[i].categoryItems.Count; a ++)
-            {
-                categoryList.Add(categorySO[i].categoryItems[a]);
-            }
-        }
-        UpdateCategoryList();
-    }
-
-    void UpdateCategoryList()
-    {
-        categoryListView.Clear();
-        categoryListView.itemsSource = categoryList;
-        
-        for (int i = 0; i < categorySO.Count; i++)
-        {
-            categoryListView.makeItem = () =>
-            {
-                var element = listViewItem.CloneTree();
-                element.style.flexDirection = FlexDirection.Column;
-                return element;
-            };
-
-            categoryListView.bindItem = (element, index) =>
-            {
-                var item = element.Q<Button>();
-                item.style.width = new Length(100, LengthUnit.Percent);
-                item.style.unityTextAlign = TextAnchor.MiddleLeft;
-                item.text = $"{categorySO[i].categoryHeader[index]}";
-            };
-
-            for (int a = 0; a < categorySO[i].categoryItems.Count; a++)
-            {
-                categoryListView.makeItem = () =>
-                {
-                    var element = listViewItem.CloneTree();
-                    element.style.flexDirection = FlexDirection.Column;
-                    return element;
-                };
-
-                categoryListView.bindItem = (element, index) =>
-                {
-                    var item = element.Q<Button>();
-                    item.style.width = new Length(100, LengthUnit.Percent);
-                    item.style.unityTextAlign = TextAnchor.MiddleCenter;
-                    item.text = $"{categorySO[i].categoryItems[a][index]}";
-                };
-            }
-        }
-        categoryListView.fixedItemHeight = 60;
-        categoryListView.Rebuild();
-    }
-
     void SetupCategoryButtons()
     {
         var categoryButtons = root.Query<Button>(className: "CategoryItemButton").ToList();
@@ -497,6 +507,6 @@ public class UIManager : MonoBehaviour
 
     void OnCategoryButtonClicked(Button button)
     {
-        Debug.Log(button.name);
+        Debug.Log(button.text);
     }
 }
