@@ -7,7 +7,7 @@
             <ui:TextField picking-mode="Ignore" style="position: absolute; left: 15%; top: 20%; right: 15%; bottom: 20%; font-size: 90%; -unity-text-align: upper-left; -unity-background-image-tint-color: rgb(243, 237, 247); color: rgb(0, 0, 0);" />
         </ui:VisualElement>
         <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="0GridContainer" picking-mode="Ignore" class="GridContainerDefault" style="display: flex;" />
-        <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="ProductPage" class="ProductPageHidden" style="transition-duration: 1s;">
+        <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" name="ProductPage" class="ProductPageHidden" style="transition-duration: 1s; display: flex;">
             <ui:VisualElement name="ProductImage" style="flex-grow: 1; background-color: rgb(0, 0, 0); position: absolute; left: 10%; top: 10%; right: 10%; bottom: 55%; border-top-left-radius: 33px; border-top-right-radius: 33px; border-bottom-right-radius: 33px; border-bottom-left-radius: 33px;" />
             <ui:Label tabindex="-1" text="Product Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductName" style="position: absolute; left: 10%; top: 45%; right: 27%; bottom: 51%; font-size: 56px; flex-wrap: nowrap; white-space: normal;" />
             <ui:Label tabindex="-1" text="150.99" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductPrice" style="position: absolute; left: 73%; top: 45%; right: 10%; bottom: 51%; font-size: 56px;" />
@@ -35,7 +35,7 @@
             <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReturnButtonLogin" style="position: absolute; left: 0; top: 0; right: 77%; bottom: 91%; background-image: url(&quot;project://database/Assets/Custom/4039_13064.png?fileID=2800000&amp;guid=a929cbb72ed64a34aaf2fc514435ade1&amp;type=3#4039_13064&quot;); background-color: rgba(255, 255, 255, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); -unity-background-image-tint-color: rgb(101, 85, 143);" />
         </ui:VisualElement>
         <ui:VisualElement name="RegisterView" class="LoginViewBase LoginViewHidden" style="display: flex; transition-duration: 1s;">
-            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0;">
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; display: flex;">
                 <ui:TextField picking-mode="Ignore" name="FirstNameTextfield" style="position: absolute; left: 10%; top: 23%; right: 10%; bottom: 70%; font-size: 70px; overflow: visible;">
                     <ui:Label tabindex="-1" text="First name" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 0; top: -75%; right: 0; bottom: 100%; font-size: 50px; -unity-text-align: middle-left;" />
                 </ui:TextField>
@@ -75,8 +75,13 @@
                 <ui:VisualElement style="flex-grow: 1; background-color: rgba(255, 255, 255, 0); background-image: none; position: absolute; left: 10%; top: 158%; right: 10%; bottom: -63%;" />
             </ui:ScrollView>
         </ui:VisualElement>
-        <ui:VisualElement name="CategoryView" picking-mode="Ignore" class="CategoryView CategoryViewHidden" style="transition-duration: 1s; background-color: rgb(254, 247, 255);">
-            <ui:ScrollView name="CategoryScrollView" style="right: 0; top: 0; flex-direction: column; left: 0; bottom: 0; position: absolute; flex-wrap: nowrap; align-self: flex-start; align-items: stretch; justify-content: center;" />
+        <ui:VisualElement name="CartView" picking-mode="Ignore" class="LoginViewBase" style="display: flex; transition-duration: 1s; align-self: stretch;">
+            <ui:ScrollView name="CartScrollView" picking-mode="Ignore" style="justify-content: space-between; align-self: stretch; position: absolute; left: 0; top: 0; right: 0; bottom: 0;">
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReturnButtonCart" style="position: absolute; left: 0; top: 0; right: 77%; bottom: 91%; background-image: url(&quot;project://database/Assets/Custom/4039_13064.png?fileID=2800000&amp;guid=a929cbb72ed64a34aaf2fc514435ade1&amp;type=3#4039_13064&quot;); background-color: rgba(255, 255, 255, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); -unity-background-image-tint-color: rgb(101, 85, 143); display: none;" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="CategoryView" picking-mode="Ignore" class="CategoryView CategoryViewHidden" style="transition-duration: 1s;">
+            <ui:ScrollView name="CategoryScrollView" picking-mode="Ignore" style="right: 0; top: 0; flex-direction: column; left: 0; bottom: 0; position: absolute; flex-wrap: nowrap; align-self: stretch; align-items: stretch; justify-content: space-between; display: flex; flex-grow: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="AccountVisual" class="AccountVisualBase AccountVisualHidden" style="transition-duration: 0.5s; display: flex; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); background-color: rgb(254, 247, 255);">
             <ui:Button text="Register" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RegisterButton" class="ButtonVisible ButtonHidden2" style="transition-duration: 1s; left: 5%; top: 5%; right: 55%; bottom: 85%;" />

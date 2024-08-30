@@ -18,9 +18,11 @@ public class UIManager : MonoBehaviour
     VisualElement loadingView;
     ScrollView productPage;
     ScrollView categoryScrollView;
+    ScrollView cartScrollView;
     VisualElement productImage;
     VisualElement appView;
     VisualElement arView;
+    VisualElement cartItemContainer;
     Label productName;
     Label productPrice;
     Label productDescription;
@@ -57,6 +59,7 @@ public class UIManager : MonoBehaviour
     bool productLoaded;
     string _productID;
     int modelID;
+    int containerCategoryHeight;
 
     void Start()
     {
@@ -100,6 +103,8 @@ public class UIManager : MonoBehaviour
         registerButton = root.Q<Button>("RegisterButton");
         registerView = root.Q<VisualElement>("RegisterView");
         returnButtonRegister = root.Q<Button>("ReturnButtonRegister");
+        cartItemContainer = root.Q<VisualElement>("CartItemContainer");
+        cartScrollView = root.Q<ScrollView>("CartScrollView");
 
         AddTemplateToGrid(_0gridContainer);
         AddCategoryToList();
@@ -172,6 +177,25 @@ public class UIManager : MonoBehaviour
         {
             ShowHideRegisterView(returnButtonRegister);
         });
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))//test for debug
+        {
+            SetupCartView();
+        }
+        if (Input.GetKeyDown("w"))//test for debug
+        {
+            if (categoryScrollView.style.display == DisplayStyle.None)
+            {
+                categoryScrollView.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                categoryScrollView.style.display = DisplayStyle.None;
+            }
+        }
     }
 
     void OnButtonClick(Button button)
@@ -257,13 +281,15 @@ public class UIManager : MonoBehaviour
             VisualElement templateInstance = listViewItem.Instantiate();
 
             templateInstance.style.width = new Length(100, LengthUnit.Percent);
-            templateInstance.style.height = new Length(5, LengthUnit.Percent);
+            templateInstance.style.height = new Length(100, LengthUnit.Pixel);
             templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
             Button button = templateInstance.Q<Button>("CategoryItemButton");
             button.text = categorySO[i].categoryHeader + " :";
             button.style.fontSize = 70;
+            button.style.unityTextAlign = TextAnchor.MiddleLeft;
             Debug.Log(button.text);
+            containerCategoryHeight += 100;
 
             categoryScrollView.Add(templateInstance);
 
@@ -272,25 +298,44 @@ public class UIManager : MonoBehaviour
                 templateInstance = listViewItem.Instantiate();
 
                 templateInstance.style.width = new Length(100, LengthUnit.Percent);
-                templateInstance.style.height = new Length(5, LengthUnit.Percent);
+                templateInstance.style.height = new Length(100, LengthUnit.Pixel);
                 templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
                 button = templateInstance.Q<Button>("CategoryItemButton");
                 button.text = categorySO[i].categoryItems[a];
                 button.style.fontSize = 50;
+                button.style.unityTextAlign = TextAnchor.MiddleLeft;
 
                 categoryScrollView.Add(templateInstance);
+                containerCategoryHeight += 100;
             }
 
             templateInstance = endOfCategory.Instantiate();
 
             templateInstance.style.width = new Length(100, LengthUnit.Percent);
-            templateInstance.style.height = new Length(3, LengthUnit.Percent);
+            templateInstance.style.height = new Length(50, LengthUnit.Pixel);
             templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+            containerCategoryHeight += 50;
 
             categoryScrollView.Add(templateInstance);
         }
+        categoryScrollView.style.height = new Length(containerCategoryHeight, LengthUnit.Pixel);
         SetupCategoryButtons();
+    }
+
+    void SetupCartView()
+    {
+        cartScrollView.style.justifyContent = Justify.SpaceBetween;
+
+        VisualElement templateInstance = productTemplateAR.Instantiate();
+        templateInstance.style.width = new Length(100, LengthUnit.Percent);
+        templateInstance.style.height = new Length(30, LengthUnit.Percent);
+        templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+        AddInfoToTemplate(templateInstance);
+        cartScrollView.Add(templateInstance); 
+        
     }
 
     void SetupButtons(int scene)
@@ -323,7 +368,6 @@ public class UIManager : MonoBehaviour
                 button.clicked += () => OnButtonClick(button);
             }
         }
-
     }
 
     void AddInfoToTemplate(VisualElement template)
