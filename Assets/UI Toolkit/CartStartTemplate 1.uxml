@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/AppUI.uss?fileID=7433441132597879392&amp;guid=64819efea286cf54bb16436b4f7ea1b9&amp;type=3#AppUI" />
+    <ui:VisualElement name="ProductTemplate" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; max-width: 100%; min-width: 100%; min-height: 100%; max-height: 100%; background-color: rgb(255, 255, 255);">
+        <ui:VisualElement style="flex-grow: 1; position: absolute; left: 5%; top: 67%; right: 5%; bottom: 23%; background-color: rgb(232, 222, 248); border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;" />
+        <ui:Label tabindex="-1" text="Cart :" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 5%; top: 10%; right: 70%; bottom: 64%; font-size: 47px;" />
+        <ui:VisualElement style="flex-grow: 1; position: absolute; left: 82%; top: 10%; right: 5%; bottom: 50%; background-color: rgba(232, 222, 248, 0); border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; background-image: url(&quot;project://database/Assets/Custom/4049_13611.png?fileID=2800000&amp;guid=32d3404342c82cc4db7befa8e66688b1&amp;type=3#4049_13611&quot;);" />
+    </ui:VisualElement>
+</ui:UXML>

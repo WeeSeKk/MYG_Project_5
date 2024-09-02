@@ -8,8 +8,11 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] VisualTreeAsset productTemplate;
     [SerializeField] VisualTreeAsset productTemplateAR;
+    [SerializeField] VisualTreeAsset shippingTemplate;
+    [SerializeField] VisualTreeAsset buyingOptionTemplate;
     [SerializeField] VisualTreeAsset listViewItem;
     [SerializeField] VisualTreeAsset endOfCategory;
+    [SerializeField] VisualTreeAsset cartStartTemplate;
     [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
     [SerializeField] public List<CategoryScriptableObject> categorySO;
     List<string> categoryList = new List<string>();
@@ -109,6 +112,7 @@ public class UIManager : MonoBehaviour
         AddTemplateToGrid(_0gridContainer);
         AddCategoryToList();
         AddTemplateToGrid(scrollListAR);
+        SetupCartView();
 
         if (productLoaded)
         {
@@ -183,17 +187,17 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))//test for debug
         {
-            SetupCartView();
+            //SetupCartView();
         }
         if (Input.GetKeyDown("w"))//test for debug
         {
-            if (categoryScrollView.style.display == DisplayStyle.None)
+            if (cartScrollView.style.display == DisplayStyle.None)
             {
-                categoryScrollView.style.display = DisplayStyle.Flex;
+                cartScrollView.style.display = DisplayStyle.Flex;
             }
             else
             {
-                categoryScrollView.style.display = DisplayStyle.None;
+                cartScrollView.style.display = DisplayStyle.None;
             }
         }
     }
@@ -281,7 +285,7 @@ public class UIManager : MonoBehaviour
             VisualElement templateInstance = listViewItem.Instantiate();
 
             templateInstance.style.width = new Length(100, LengthUnit.Percent);
-            templateInstance.style.height = new Length(100, LengthUnit.Pixel);
+            templateInstance.style.height = new Length(5, LengthUnit.Percent);
             templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
             Button button = templateInstance.Q<Button>("CategoryItemButton");
@@ -298,7 +302,7 @@ public class UIManager : MonoBehaviour
                 templateInstance = listViewItem.Instantiate();
 
                 templateInstance.style.width = new Length(100, LengthUnit.Percent);
-                templateInstance.style.height = new Length(100, LengthUnit.Pixel);
+                templateInstance.style.height = new Length(5, LengthUnit.Percent);
                 templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
                 button = templateInstance.Q<Button>("CategoryItemButton");
@@ -313,29 +317,57 @@ public class UIManager : MonoBehaviour
             templateInstance = endOfCategory.Instantiate();
 
             templateInstance.style.width = new Length(100, LengthUnit.Percent);
-            templateInstance.style.height = new Length(50, LengthUnit.Pixel);
+            templateInstance.style.height = new Length(2, LengthUnit.Percent);
             templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
             containerCategoryHeight += 50;
 
             categoryScrollView.Add(templateInstance);
         }
-        categoryScrollView.style.height = new Length(containerCategoryHeight, LengthUnit.Pixel);
         SetupCategoryButtons();
     }
 
     void SetupCartView()
     {
-        cartScrollView.style.justifyContent = Justify.SpaceBetween;
+        VisualElement templateInstance;
+        int itemsInCart = 5;
 
-        VisualElement templateInstance = productTemplateAR.Instantiate();
+        templateInstance = cartStartTemplate.Instantiate();
         templateInstance.style.width = new Length(100, LengthUnit.Percent);
-        templateInstance.style.height = new Length(30, LengthUnit.Percent);
+        templateInstance.style.height = new Length(12, LengthUnit.Percent);
         templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-        AddInfoToTemplate(templateInstance);
-        cartScrollView.Add(templateInstance); 
-        
+        cartScrollView.Add(templateInstance);
+
+
+        for (int a = 0; a < itemsInCart; a++)
+        {
+            cartScrollView.style.justifyContent = Justify.SpaceBetween;
+
+            templateInstance = productTemplateAR.Instantiate();
+            templateInstance.style.width = new Length(100, LengthUnit.Percent);
+            templateInstance.style.height = new Length(15, LengthUnit.Percent);
+            templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+            AddInfoToTemplate(templateInstance);
+            cartScrollView.Add(templateInstance);
+        }
+
+        templateInstance = shippingTemplate.Instantiate();
+        templateInstance.style.width = new Length(100, LengthUnit.Percent);
+        templateInstance.style.height = new Length(40, LengthUnit.Percent);
+        templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+        cartScrollView.Add(templateInstance);
+
+        templateInstance = buyingOptionTemplate.Instantiate();
+        templateInstance.style.width = new Length(100, LengthUnit.Percent);
+        templateInstance.style.height = new Length(50, LengthUnit.Percent);
+        templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+        cartScrollView.Add(templateInstance);
+
+        cartScrollView.style.display = DisplayStyle.Flex;
     }
 
     void SetupButtons(int scene)
