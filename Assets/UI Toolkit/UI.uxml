@@ -75,10 +75,8 @@
                 <ui:VisualElement style="flex-grow: 1; background-color: rgba(255, 255, 255, 0); background-image: none; position: absolute; left: 10%; top: 158%; right: 10%; bottom: -63%;" />
             </ui:ScrollView>
         </ui:VisualElement>
-        <ui:VisualElement name="CartView" picking-mode="Ignore" class="LoginViewBase" style="display: flex; transition-duration: 1s; align-self: stretch;">
-            <ui:ScrollView name="CartScrollView" picking-mode="Ignore" horizontal-scroller-visibility="AlwaysVisible" vertical-scroller-visibility="AlwaysVisible" style="justify-content: space-between; align-self: stretch; position: absolute; left: 0; top: 0; right: 0; bottom: 0; flex-grow: 1; flex-wrap: wrap; flex-direction: column; display: none;">
-                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReturnButtonCart" style="position: absolute; left: 0; top: 0; right: 77%; bottom: 91%; background-image: url(&quot;project://database/Assets/Custom/4039_13064.png?fileID=2800000&amp;guid=a929cbb72ed64a34aaf2fc514435ade1&amp;type=3#4039_13064&quot;); background-color: rgba(255, 255, 255, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); -unity-background-image-tint-color: rgb(101, 85, 143); display: none;" />
-            </ui:ScrollView>
+        <ui:VisualElement name="CartView" picking-mode="Ignore" class="LoginViewBase LoginViewHidden" style="display: flex; transition-duration: 1s; align-self: stretch;">
+            <ui:ScrollView name="CartScrollView" picking-mode="Ignore" horizontal-scroller-visibility="AlwaysVisible" vertical-scroller-visibility="AlwaysVisible" style="justify-content: space-between; align-self: stretch; position: absolute; left: 0; top: 0; right: 0; bottom: 0; flex-grow: 1; flex-wrap: wrap; flex-direction: column; display: none;" />
         </ui:VisualElement>
         <ui:VisualElement name="CategoryView" picking-mode="Ignore" class="CategoryView CategoryViewHidden" style="transition-duration: 1s;">
             <ui:ScrollView name="CategoryScrollView" picking-mode="Ignore" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="right: 0; top: 0; flex-direction: column; left: 0; bottom: 0; position: absolute; flex-wrap: wrap; align-self: stretch; align-items: stretch; justify-content: space-between; display: flex; flex-grow: 1;" />

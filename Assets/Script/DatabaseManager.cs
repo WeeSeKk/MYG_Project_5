@@ -11,7 +11,7 @@ public class DatabaseManager : MonoBehaviour
 
     void Start()
     {
-        LoadObject();
+        
     }
 
 

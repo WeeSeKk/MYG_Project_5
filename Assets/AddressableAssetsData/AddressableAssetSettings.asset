@@ -33,6 +33,7 @@ MonoBehaviour:
   m_ShaderBundleCustomNaming: 
   m_MonoScriptBundleNaming: 0
   m_CheckForContentUpdateRestrictionsOption: 0
+  m_BuildAndReleaseBinFileOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
     m_Id: 21bb1a93a920006408263be498a09593
@@ -66,7 +67,7 @@ MonoBehaviour:
       - m_Id: 21bb1a93a920006408263be498a09593
         m_Value: ServerData/[BuildTarget]
       - m_Id: d37490b0737426343a65e459cd952a83
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: https://aa733c68-22f3-435c-a2eb-90c2dae920ff.client-api.unity3dusercontent.com/client_api/v1/environments/01/buckets/33171e2a-9ac7-402b-977d-42dc366afba8/release_by_badge/latest/entry_by_path/content/?path=
     m_ProfileEntryNames:
     - m_Id: b3e242ebb760f3b4989d978884f6615e
       m_Name: BuildTarget
@@ -107,3 +108,9 @@ MonoBehaviour:
     m_NextInstanceId: 0
     m_RegisteredServiceTypeRefs: []
     m_PingTimeoutInMilliseconds: 5000
+  m_CcdManagedData:
+    EnvironmentId: 
+    EnvironmentName: 
+    BucketId: 
+    Badge: 
+    State: 0

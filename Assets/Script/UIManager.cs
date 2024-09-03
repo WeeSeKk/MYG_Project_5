@@ -41,8 +41,9 @@ public class UIManager : MonoBehaviour
     Button returnButtonRegister;
     Button modelButton;
     Button productListInfoButton;
-    Button returnARButton;
     Button cartButton;
+    Button returnARButton;
+    Button addToCartButton;
     Button buyButton;
     Button categoryButton;
     Button closeARListButton;
@@ -54,11 +55,13 @@ public class UIManager : MonoBehaviour
     Label productNameInfo;
     Label productDescriptionInfo;
     VisualElement productInfoImageList;
+    VisualElement cartView;
     Label productNameInfoList;
     Label productDescriptionInfoList;
     Label productPriceInfo;
     TreeView categoryTreeView;
     ListView categoryListView;
+    Button returnButtonCart;
     bool productLoaded;
     string _productID;
     int modelID;
@@ -81,7 +84,7 @@ public class UIManager : MonoBehaviour
         loadingView = root.Q<VisualElement>("LoadingView");
         modelButton = root.Q<Button>("ModelButton");
         buyButton = root.Q<Button>("BuyButton");
-        cartButton = root.Q<Button>("AddToCartButton");
+        addToCartButton = root.Q<Button>("AddToCartButton");
         productInfoImage = root.Q<VisualElement>("ProductImageInfo");
         productNameInfo = root.Q<Label>("ProductNameInfo");
         productDescriptionInfo = root.Q<Label>("ProductDescriptionInfo");
@@ -108,6 +111,8 @@ public class UIManager : MonoBehaviour
         returnButtonRegister = root.Q<Button>("ReturnButtonRegister");
         cartItemContainer = root.Q<VisualElement>("CartItemContainer");
         cartScrollView = root.Q<ScrollView>("CartScrollView");
+        cartButton = root.Q<Button>("CartButton");
+        cartView = root.Q<VisualElement>("CartView");
 
         AddTemplateToGrid(_0gridContainer);
         AddCategoryToList();
@@ -181,13 +186,23 @@ public class UIManager : MonoBehaviour
         {
             ShowHideRegisterView(returnButtonRegister);
         });
+
+        cartButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            StartCoroutine(ShowHideCartView(cartButton));
+        });
+
+        returnButtonCart.RegisterCallback<ClickEvent>(evt =>
+        {
+            StartCoroutine(ShowHideCartView(returnButtonCart));
+        });
     }
 
     void Update()
     {
         if (Input.GetKeyDown("space"))//test for debug
         {
-            //SetupCartView();
+            
         }
         if (Input.GetKeyDown("w"))//test for debug
         {
@@ -334,11 +349,12 @@ public class UIManager : MonoBehaviour
 
         templateInstance = cartStartTemplate.Instantiate();
         templateInstance.style.width = new Length(100, LengthUnit.Percent);
-        templateInstance.style.height = new Length(12, LengthUnit.Percent);
+        templateInstance.style.height = new Length(25, LengthUnit.Percent);
         templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
         cartScrollView.Add(templateInstance);
 
+        returnButtonCart = root.Q<Button>("ReturnButtonCart");
 
         for (int a = 0; a < itemsInCart; a++)
         {
@@ -366,6 +382,7 @@ public class UIManager : MonoBehaviour
         templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
         cartScrollView.Add(templateInstance);
+
 
         cartScrollView.style.display = DisplayStyle.Flex;
     }
@@ -429,6 +446,26 @@ public class UIManager : MonoBehaviour
         else
         {
             categoryView.AddToClassList("CategoryViewHidden");
+        }
+    }
+
+    IEnumerator ShowHideCartView(Button button)
+    {
+        if (cartView.ClassListContains("LoginViewHidden"))
+        {
+            cartScrollView.style.display = DisplayStyle.Flex;
+            ShowHideAccountInfo();
+            cartView.RemoveFromClassList("LoginViewHidden");
+        }
+        else if (!cartView.ClassListContains("LoginViewHidden") && button == cartButton)
+        {
+            ShowHideAccountInfo();
+        }
+        else if (button != loginButton)
+        {
+            cartView.AddToClassList("LoginViewHidden");
+            yield return new WaitForSeconds(1);
+            cartScrollView.style.display = DisplayStyle.None;
         }
     }
 
@@ -508,7 +545,7 @@ public class UIManager : MonoBehaviour
         {
             productPage.RemoveFromClassList("ProductPageVisible");
             buyButton.AddToClassList("ButtonHidden2");
-            cartButton.AddToClassList("ButtonHidden2");
+            addToCartButton.AddToClassList("ButtonHidden2");
             return;
         }
         for (int i = 0; i < scriptableObjects.Count; i++)
@@ -525,7 +562,7 @@ public class UIManager : MonoBehaviour
         }
         productPage.AddToClassList("ProductPageVisible");
         buyButton.RemoveFromClassList("ButtonHidden2");
-        cartButton.RemoveFromClassList("ButtonHidden2");
+        addToCartButton.RemoveFromClassList("ButtonHidden2");
     }
 
     public void ChangeSceneUI(int scene)
