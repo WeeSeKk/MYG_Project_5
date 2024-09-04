@@ -13,8 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] VisualTreeAsset listViewItem;
     [SerializeField] VisualTreeAsset endOfCategory;
     [SerializeField] VisualTreeAsset cartStartTemplate;
-    [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
     [SerializeField] public List<CategoryScriptableObject> categorySO;
+    List<SpawnManagerScriptableObject> scriptableObjects = new List<SpawnManagerScriptableObject>();
     List<string> categoryList = new List<string>();
     _3DModelsManager _3DModelsManager;
     ScrollView _0gridContainer;
@@ -114,9 +114,8 @@ public class UIManager : MonoBehaviour
         cartButton = root.Q<Button>("CartButton");
         cartView = root.Q<VisualElement>("CartView");
 
-        AddTemplateToGrid(_0gridContainer);
+        AddTemplateToGrid();
         AddCategoryToList();
-        AddTemplateToGrid(scrollListAR);
         SetupCartView();
 
         if (productLoaded)
@@ -202,7 +201,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))//test for debug
         {
-            
+
         }
         if (Input.GetKeyDown("w"))//test for debug
         {
@@ -237,9 +236,17 @@ public class UIManager : MonoBehaviour
             VisualElement template = button.parent;
             Label productID = template.Q<Label>("ProductID");
 
+            for (int i = 0; i < scriptableObjects.Count; i++)
+            {
+                if (scriptableObjects[i].modelID == productID.text)
+                {
+                    _3DModelsManager.ChangeModel(scriptableObjects[i].productID);
+                    _productID = scriptableObjects[i].modelID;
+                    UpdateARInfoButton();
+                    break;
+                }
+            }
             ShowHideARList();
-
-            _3DModelsManager.ChangeModel(productID.text);
         }
         else if (button.name == "FavoriteButtonAR")
         {
@@ -247,50 +254,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void AddTemplateToGrid(ScrollView scrollView)
+    void AddTemplateToGrid()
     {
-        if (scrollView == _0gridContainer)
+        int count = 0;
+
+        while (count < AppManager.instance.scriptableObjects.Count)
         {
-            int count = 0;
-            int maxCount = 20;
+            VisualElement templateInstance = productTemplate.Instantiate();
+            VisualElement templateInstanceAR = productTemplateAR.Instantiate();
 
-            scrollView.style.justifyContent = Justify.SpaceBetween;
+            templateInstance.style.width = new Length(50, LengthUnit.Percent);
+            templateInstance.style.height = new Length(40, LengthUnit.Percent);
+            templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-            while (count < maxCount)
-            {
-                VisualElement templateInstance = productTemplate.Instantiate();
+            templateInstanceAR.style.width = new Length(100, LengthUnit.Percent);
+            templateInstanceAR.style.height = new Length(30, LengthUnit.Percent);
+            templateInstanceAR.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-                templateInstance.style.width = new Length(50, LengthUnit.Percent);
-                templateInstance.style.height = new Length(40, LengthUnit.Percent);
-                templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+            AddInfoToTemplate(templateInstance, templateInstanceAR);
+            _0gridContainer.Add(templateInstance);
+            scrollListAR.Add(templateInstanceAR);
+            count++;
 
-                AddInfoToTemplate(templateInstance);
-                scrollView.Add(templateInstance);
-                count++;
-
-            }
-            productLoaded = true;
         }
-        else
-        {
-            int count = 0;
-            int maxCount = 20;
-
-            scrollView.style.justifyContent = Justify.SpaceBetween;
-
-            while (count < maxCount)
-            {
-                VisualElement templateInstance = productTemplateAR.Instantiate();
-
-                templateInstance.style.width = new Length(100, LengthUnit.Percent);
-                templateInstance.style.height = new Length(30, LengthUnit.Percent);
-                templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
-
-                AddInfoToTemplate(templateInstance);
-                scrollView.Add(templateInstance);
-                count++;
-            }
-        }
+        productLoaded = true;
     }
 
     void AddCategoryToList()
@@ -365,7 +352,7 @@ public class UIManager : MonoBehaviour
             templateInstance.style.height = new Length(15, LengthUnit.Percent);
             templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-            AddInfoToTemplate(templateInstance);
+            //AddInfoToTemplate(templateInstance);
             cartScrollView.Add(templateInstance);
         }
 
@@ -419,22 +406,47 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void AddInfoToTemplate(VisualElement template)
+    void AddInfoToTemplate(VisualElement template, VisualElement templateAR)
     {
-        VisualElement productImage = template.Q<VisualElement>("ProductImage");
-        productImage.style.backgroundImage = scriptableObjects[0].modelImage;
+        foreach (var scriptableObject in AppManager.instance.scriptableObjects)
+        {
+            if (!scriptableObjects.Contains(scriptableObject))
+            {
+                VisualElement productImage = template.Q<VisualElement>("ProductImage");
+                productImage.style.backgroundImage = scriptableObject.modelImage;
 
-        Label productID = template.Q<Label>("ProductID");
-        productID.text = scriptableObjects[0].modelID;
+                Label productID = template.Q<Label>("ProductID");
+                productID.text = scriptableObject.modelID;
 
-        Label productName = template.Q<Label>("ProductName");
-        productName.text = scriptableObjects[0].productName;
+                Label productName = template.Q<Label>("ProductName");
+                productName.text = scriptableObject.productName;
 
-        Label productDescription = template.Q<Label>("ProductDescription");
-        productDescription.text = scriptableObjects[0].productDescription;
+                Label productDescription = template.Q<Label>("ProductDescription");
+                productDescription.text = scriptableObject.shortProductDescription;
 
-        Label productPrice = template.Q<Label>("ProductPrice");
-        productPrice.text = scriptableObjects[0].productPrice.ToString();
+                Label productPrice = template.Q<Label>("ProductPrice");
+                productPrice.text = scriptableObject.productPrice.ToString() + " $";
+
+                productImage = templateAR.Q<VisualElement>("ProductImage");
+                productImage.style.backgroundImage = scriptableObject.modelImage;
+
+                productID = templateAR.Q<Label>("ProductID");
+                productID.text = scriptableObject.modelID;
+
+                productName = templateAR.Q<Label>("ProductName");
+                productName.text = scriptableObject.productName;
+
+                productDescription = templateAR.Q<Label>("ProductDescription");
+                productDescription.text = scriptableObject.shortProductDescription;
+
+                productPrice = templateAR.Q<Label>("ProductPrice");
+                productPrice.text = scriptableObject.productPrice.ToString() + " $";
+
+                scriptableObjects.Add(scriptableObject);
+
+                break;
+            }
+        }
     }
 
     void ShowHideCategory()
@@ -556,7 +568,7 @@ public class UIManager : MonoBehaviour
                 _productID = scriptableObjects[i].modelID;
                 productImage.style.backgroundImage = scriptableObjects[i].modelImage;
                 productName.text = scriptableObjects[i].productName;
-                productPrice.text = scriptableObjects[i].productPrice.ToString();
+                productPrice.text = scriptableObjects[i].productPrice.ToString() + " $";
                 productDescription.text = scriptableObjects[i].productDescription;
             }
         }
@@ -575,26 +587,11 @@ public class UIManager : MonoBehaviour
             arView.style.display = DisplayStyle.Flex;
 
             modelButton.pickingMode = PickingMode.Position;
-            AddTemplateToGrid(scrollListAR);
             SetupButtons(2);
 
             _3DModelsManager = GameObject.Find("3DModel").GetComponent<_3DModelsManager>();
 
-            for (int i = 0; i < scriptableObjects.Count; i++)
-            {
-                if (scriptableObjects[i].modelID == _productID)
-                {
-                    productInfoImage.style.backgroundImage = scriptableObjects[i].modelImage;
-                    productNameInfo.text = scriptableObjects[i].productName;
-                    productPriceInfo.text = scriptableObjects[i].productPrice.ToString();
-                    productDescriptionInfo.text = scriptableObjects[i].productDescription;
-
-                    productInfoImageList.style.backgroundImage = scriptableObjects[i].modelImage;
-                    productDescriptionInfoList.text = scriptableObjects[i].productDescription;
-                    productNameInfoList.text = scriptableObjects[i].productName;
-                    break;
-                }
-            }
+            UpdateARInfoButton();
         }
         else
         {
@@ -605,6 +602,25 @@ public class UIManager : MonoBehaviour
             arView.style.display = DisplayStyle.None;
 
             modelButton.pickingMode = PickingMode.Ignore;
+        }
+    }
+
+    void UpdateARInfoButton()
+    {
+        for (int i = 0; i < scriptableObjects.Count; i++)
+        {
+            if (scriptableObjects[i].modelID == _productID)
+            {
+                productInfoImage.style.backgroundImage = scriptableObjects[i].modelImage;
+                productNameInfo.text = scriptableObjects[i].productName;
+                productPriceInfo.text = scriptableObjects[i].productPrice.ToString();
+                productDescriptionInfo.text = scriptableObjects[i].shortProductDescription;
+
+                productInfoImageList.style.backgroundImage = scriptableObjects[i].modelImage;
+                productDescriptionInfoList.text = scriptableObjects[i].shortProductDescription;
+                productNameInfoList.text = scriptableObjects[i].productName;
+                break;
+            }
         }
     }
 

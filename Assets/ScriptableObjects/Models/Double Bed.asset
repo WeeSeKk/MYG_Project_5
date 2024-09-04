@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Double Bed
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 793287008324818154, guid: 98afb99bf7a7d4d48a49020d10a1c574, type: 3}
+  modelImage: {fileID: 2800000, guid: f00d16661b9dafa4886aef098d11edde, type: 3}
+  productName: Double Bed
+  productDescription: "The sturdy solid pine frame has natural variations in grain,
+    colour and texture, giving every piece a unique look. And it has been stained
+    and lacquered making it more durable and easy to care for.  You can sit up comfortably
+    in bed thanks to the high headboard \u2013 just prop some pillows behind your
+    back and you will have a comfortable place to read or watch TV."
+  shortProductDescription: Bed frame, 180x200 cm
+  productPrice: 429
+  modelID: 5
+  productID: 5

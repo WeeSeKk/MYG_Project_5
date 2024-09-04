@@ -19,6 +19,7 @@ public class _3DModelsManager : MonoBehaviour
     Image modelInfo;
     TMP_Text tMP_TextName;
     TMP_Text tMP_TextDescription;
+    int currentModelID;
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +27,13 @@ public class _3DModelsManager : MonoBehaviour
         //Invoke("LoadPreview", 0.2f);
     }
 
-    public void InstantiateModel(int type, Vector3 pos, Quaternion rot)
+    public void InstantiateModel(Vector3 pos, Quaternion rot)
     {
         GameObject modelUIContainer;
         GameObject _3DModel;
 
         modelContainer = Instantiate(container, pos, rot, this.transform);
-        _3DModel = Instantiate(scriptableObjects[type].model3D, pos, rot, modelContainer.transform);
+        _3DModel = Instantiate(AppManager.instance.scriptableObjects[currentModelID].model3D, pos, rot, modelContainer.transform);
         modelUIContainer = Instantiate(modelUI, pos, rot, canvas.transform);
 
         modelInfo = Instantiate(image, new Vector3(_3DModel.transform.position.x, _3DModel.transform.position.y + 0.4f, _3DModel.transform.position.z), _3DModel.transform.rotation, modelUIContainer.transform);
@@ -40,8 +41,8 @@ public class _3DModelsManager : MonoBehaviour
 
         tMP_TextName = modelInfo.transform.GetChild(1).GetComponent<TMP_Text>();
         tMP_TextDescription = modelInfo.transform.GetChild(2).GetComponent<TMP_Text>();
-        tMP_TextName.text = scriptableObjects[type].productName;
-        tMP_TextDescription.text = scriptableObjects[type].productDescription;
+        tMP_TextName.text = AppManager.instance.scriptableObjects[currentModelID].productName;
+        tMP_TextDescription.text = AppManager.instance.scriptableObjects[currentModelID].productDescription;
         Image infoImage = modelInfo.transform.GetChild(0).GetComponent<Image>();
 
     }
@@ -99,11 +100,13 @@ public class _3DModelsManager : MonoBehaviour
         {
             baseIndicator.SetActive(false);
         }
-        
-        previewModel = Instantiate(scriptableObjects[modelID].model3D, previewPlace.transform.position, previewPlace.transform.rotation, previewPlace.transform);
+
+        previewModel = Instantiate(AppManager.instance.scriptableObjects[modelID].model3D, previewPlace.transform.position, previewPlace.transform.rotation, previewPlace.transform);
 
         MeshRenderer renderer = previewModel.GetComponent<MeshRenderer>();
         renderer.material = materialPreview;
+
+        currentModelID = modelID;
     }
 
     public void UnloadPreview()
@@ -127,17 +130,10 @@ public class _3DModelsManager : MonoBehaviour
         }
     }
 
-    public void ChangeModel(string modelID)
+    public void ChangeModel(int modelID)
     {
-        for (int i = 0; i < scriptableObjects.Count; i++)
-        {
-            if (scriptableObjects[i].modelID == modelID)
-            {
-                UnloadPreview();
-                EventManager.ScreenTapEvent();
-                LoadPreview(i);
-                break;
-            }
-        }
+        UnloadPreview();
+        EventManager.ScreenTapEvent();
+        LoadPreview(modelID);
     }
 }

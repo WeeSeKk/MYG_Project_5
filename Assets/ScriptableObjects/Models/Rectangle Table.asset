@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Rectangle Table
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 7975884060913964424, guid: bed0eab721da5d94db313a7e7c13adad, type: 3}
+  modelImage: {fileID: 2800000, guid: 74aaf3fca2c2a504eb967f9c92672d3e, type: 3}
+  productName: Rectangle Table
+  productDescription: Pine has a straight grain and the knots give the pine its signature
+    rustic look. In its natural form it is heavy and gives a very solid feel.  Solid
+    pine is a natural material that ages beautifully and acquires its own unique
+    character over time.
+  shortProductDescription: Extendable table, 120/180x80 cm
+  productPrice: 99
+  modelID: 11
+  productID: 11

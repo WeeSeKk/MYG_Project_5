@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Table
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 4248587316559816689, guid: b9d7d48ccec2236438c2321fbaa33f7f, type: 3}
+  modelImage: {fileID: 2800000, guid: 6a8192bd35906b94e8309358d9fa5402, type: 3}
+  productName: Table
+  productDescription: "A durable dining table that makes it easy to have big dinners.
+    A single person can extend the table and there\u2019s plenty of room for chairs
+    since the legs are always located at the corners of the table."
+  shortProductDescription: Extendable table, 80/120x70 cm
+  productPrice: 199
+  modelID: 16
+  productID: 16

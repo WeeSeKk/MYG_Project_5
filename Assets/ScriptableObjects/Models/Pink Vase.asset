@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Pink Vase
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 6609092022762214628, guid: 6a8e35a782f6c104b9cd9ffd6f40addf, type: 3}
+  modelImage: {fileID: 2800000, guid: 9830c03e590de38449bbb934cee5a3dd, type: 3}
+  productName: Pink Vase
+  productDescription: "Subdued colours, round shapes and beautiful grooves \u2013
+    GRADVIS vase gives your home a slightly softer and warmer feel. Enhance your
+    favourite flowers or just let it stand beautifully on its own."
+  shortProductDescription: Vase, 21 cm
+  productPrice: 9.99
+  modelID: 10
+  productID: 10

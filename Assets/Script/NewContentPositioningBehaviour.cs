@@ -25,14 +25,14 @@ public class NewContentPositioningBehaviour : VuforiaMonoBehaviour
             
             if (_3DModel.transform.childCount == 0)
             {
-                modelManager.InstantiateModel(2, hit.Position, hit.Rotation);
+                modelManager.InstantiateModel(hit.Position, hit.Rotation);
             }
             groundPlanePlaced = true;
             leanFingerTap.enabled = true;
         }
         else
         {
-            modelManager.InstantiateModel(2, hit.Position, hit.Rotation);
+            modelManager.InstantiateModel(hit.Position, hit.Rotation);
         }
     }
 

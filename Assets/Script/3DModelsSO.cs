@@ -11,6 +11,7 @@ public class SpawnManagerScriptableObject : ScriptableObject
     public Texture2D modelImage;
     public string productName;
     public string productDescription;
+    public string shortProductDescription;
     public float productPrice;
     public string modelID;
     public int productID;

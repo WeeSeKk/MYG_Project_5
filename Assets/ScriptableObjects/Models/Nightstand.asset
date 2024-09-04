@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Nightstand
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 5156109403296985656, guid: 2a24a8d1f96a235458dcb6d44eb24d66, type: 3}
+  modelImage: {fileID: 2800000, guid: babfb3a8ba94cb945b9e60a8aacfb27c, type: 3}
+  productName: Night Stand
+  productDescription: "A clean expression that fits right in, in the bedroom or wherever
+    you place it. Smooth-running drawers and in a choice of finishes \u2013 pick
+    your favourite."
+  shortProductDescription: Bedside table, 40x39 cm
+  productPrice: 39.99
+  modelID: 9
+  productID: 9

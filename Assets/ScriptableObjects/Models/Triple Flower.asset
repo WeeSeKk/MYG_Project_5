@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Triple Flower
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 5875912679710460908, guid: ac4565d9336aaaa40b924cc8c5f2e8c3, type: 3}
+  modelImage: {fileID: 2800000, guid: 707232c6691527a45b8fa21948286ffa, type: 3}
+  productName: Triple Flower
+  productDescription: Lifelike artificial bouquet that remains just as fresh-looking
+    and beautiful year after year.  You can bend and adjust the flowers any way you
+    want because of the steel wires in the stems.  The stem can be shortened by means
+    of cutting pliers.
+  shortProductDescription: Artificial flower, 27 cm
+  productPrice: 9.99
+  modelID: 18
+  productID: 18

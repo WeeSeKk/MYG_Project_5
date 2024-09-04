@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Couch
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 6422943739507794168, guid: a9663d11f2ad8b14cb1bbdf177665c09, type: 3}
+  modelImage: {fileID: 2800000, guid: 53383077279878d468deff78d34e0795, type: 3}
+  productName: Couch
+  productDescription: Seat cushions with polyurethane foam and polyester fibre wadding
+    give firm and supportive seating comfort.  The storage space under the seat has
+    room for bedlinen or other things.  You can make the sofa more comfortable and
+    personal by completing with pillows in different colours and patterns.
+  shortProductDescription: 3-seat sofa-bed
+  productPrice: 449
+  modelID: 2
+  productID: 2

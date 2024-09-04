@@ -7,6 +7,7 @@ public class AppManager : MonoBehaviour
 {
     public static AppManager instance;
     [SerializeField] UIManager uIManager;
+    [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
 
     void Awake()
     {

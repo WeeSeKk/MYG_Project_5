@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Thin Chair
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 7746511543321280197, guid: b320e2ed620c15649b36d7d6515d4d46, type: 3}
+  modelImage: {fileID: 2800000, guid: dc191e26c473d0b4bbc420659477e233, type: 3}
+  productName: Thin Chair
+  productDescription: "A comfy chair that\u2019s sturdy, yet lightweight and stackable
+    too. An easy match with different tables and styles and eager to please, whether
+    it\u2019s in the dining room, in the entrance or by your bed."
+  shortProductDescription: Chair
+  productPrice: 49.99
+  modelID: 17
+  productID: 17

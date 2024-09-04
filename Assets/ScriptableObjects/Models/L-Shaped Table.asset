@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: L-Shaped Table
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 770604757721602935, guid: 7a7fff0345aec4e4e8e58e48b4a093f1, type: 3}
+  modelImage: {fileID: 2800000, guid: e7284fe39e394a3449b5e86213097640, type: 3}
+  productName: L Shaped Table
+  productDescription: Extendable dining table with 1 extra leaf seats 4-6; makes
+    it possible to adjust the table size according to need.  1 extension leaf included. 
+    1 person can quickly and smoothly extend the table before the guests arrive.
+  shortProductDescription: Extendable table, 150/200x80 cm
+  productPrice: 599
+  modelID: 7
+  productID: 7

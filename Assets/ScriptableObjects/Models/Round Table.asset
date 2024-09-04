@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e858856c34c3f44a9584bb55b4a3524, type: 3}
+  m_Name: Round Table
+  m_EditorClassIdentifier: 
+  model3D: {fileID: 1454165187548763086, guid: 14ec93495dfe66f489aeabddd304c43b, type: 3}
+  modelImage: {fileID: 2800000, guid: cebed23bf3d649b4582a821fbeb66fac, type: 3}
+  productName: Round Table
+  productDescription: The sturdy metal construction with criss-crossed legs gives
+    this table a modern look that goes just as well in the kitchen as in the living
+    room. A practical choice for those who live in a small space.
+  shortProductDescription: Table, 103 cm
+  productPrice: 199
+  modelID: 12
+  productID: 12
