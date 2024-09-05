@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Vuforia;
+using Database;
 
 public class NewContentPositioningBehaviour : VuforiaMonoBehaviour
 {
@@ -25,14 +26,14 @@ public class NewContentPositioningBehaviour : VuforiaMonoBehaviour
             
             if (_3DModel.transform.childCount == 0)
             {
-                modelManager.InstantiateModel(hit.Position, hit.Rotation);
+                modelManager.LoadAssets(hit.Position, hit.Rotation);
             }
             groundPlanePlaced = true;
             leanFingerTap.enabled = true;
         }
         else
         {
-            modelManager.InstantiateModel(hit.Position, hit.Rotation);
+            modelManager.LoadAssets(hit.Position, hit.Rotation);
         }
     }
 

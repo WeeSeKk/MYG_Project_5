@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Database;
 
 public class _3DModelsManager : MonoBehaviour
 {
@@ -14,27 +15,37 @@ public class _3DModelsManager : MonoBehaviour
     [SerializeField] GameObject modelUI;
     [SerializeField] GameObject modelPreview;
     [SerializeField] Material materialPreview;
+    DatabaseManager databaseManager;
     GameObject modelContainer;
     GameObject previewModel;
     Image modelInfo;
     TMP_Text tMP_TextName;
     TMP_Text tMP_TextDescription;
     int currentModelID;
+    Vector3 currentPos;
+    Quaternion currentRot;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Invoke("LoadPreview", 0.2f);
+        databaseManager = GameObject.Find("DatabaseManager").GetComponent<DatabaseManager>();
     }
 
-    public void InstantiateModel(Vector3 pos, Quaternion rot)
+    public void LoadAssets(Vector3 pos, Quaternion rot)
+    {
+        currentPos = pos;
+        currentRot = rot;
+        databaseManager.LoadObject(currentModelID);
+    }
+
+    public void InstantiateModel()
     {
         GameObject modelUIContainer;
         GameObject _3DModel;
 
-        modelContainer = Instantiate(container, pos, rot, this.transform);
-        _3DModel = Instantiate(AppManager.instance.scriptableObjects[currentModelID].model3D, pos, rot, modelContainer.transform);
-        modelUIContainer = Instantiate(modelUI, pos, rot, canvas.transform);
+        modelContainer = Instantiate(container, currentPos, currentRot, this.transform);
+        _3DModel = Instantiate(AppManager.instance.scriptableObjects[currentModelID].model3D, currentPos, currentRot, modelContainer.transform);
+        modelUIContainer = Instantiate(modelUI, currentPos, currentRot, canvas.transform);
 
         modelInfo = Instantiate(image, new Vector3(_3DModel.transform.position.x, _3DModel.transform.position.y + 0.4f, _3DModel.transform.position.z), _3DModel.transform.rotation, modelUIContainer.transform);
         modelInfo.gameObject.SetActive(false);
@@ -44,7 +55,6 @@ public class _3DModelsManager : MonoBehaviour
         tMP_TextName.text = AppManager.instance.scriptableObjects[currentModelID].productName;
         tMP_TextDescription.text = AppManager.instance.scriptableObjects[currentModelID].productDescription;
         Image infoImage = modelInfo.transform.GetChild(0).GetComponent<Image>();
-
     }
 
     public GameObject Model()

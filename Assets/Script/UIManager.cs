@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
     Button modelButton;
     Button productListInfoButton;
     Button cartButton;
+    Button registerButtonRegisterView;
     Button returnARButton;
     Button addToCartButton;
     Button buyButton;
@@ -62,6 +63,19 @@ public class UIManager : MonoBehaviour
     TreeView categoryTreeView;
     ListView categoryListView;
     Button returnButtonCart;
+    TextField firstNameTextfield;
+    TextField lastNameTextfield;
+    TextField birthdateTextfield;
+    TextField adressTextfield;
+    TextField zIPCodeTextfield;
+    TextField cityTexfield;
+    TextField phoneNumberTexfield;
+    TextField emailTexfield;
+    TextField passwordTexfield;
+    TextField confirmPasswordTexfield;
+    TextField emailTexfieldLogin;
+    TextField passwordTexfieldLogin;
+    Button loginButtonLoginView;
     bool productLoaded;
     string _productID;
     int modelID;
@@ -113,6 +127,20 @@ public class UIManager : MonoBehaviour
         cartScrollView = root.Q<ScrollView>("CartScrollView");
         cartButton = root.Q<Button>("CartButton");
         cartView = root.Q<VisualElement>("CartView");
+        registerButtonRegisterView = root.Q<Button>("RegisterButtonRegisterView");
+        firstNameTextfield = root.Q<TextField>("FirstNameTextfield");
+        lastNameTextfield = root.Q<TextField>("LastNameTextfield");
+        birthdateTextfield = root.Q<TextField>("BirthdateTextfield");
+        adressTextfield = root.Q<TextField>("AdressTextfield");
+        zIPCodeTextfield = root.Q<TextField>("ZIPCodeTextfield");
+        cityTexfield = root.Q<TextField>("CityTexfield");
+        phoneNumberTexfield = root.Q<TextField>("PhoneNumberTexfield");
+        emailTexfield = root.Q<TextField>("EmailTexfield");
+        passwordTexfield = root.Q<TextField>("PasswordTexfield");
+        confirmPasswordTexfield = root.Q<TextField>("ConfirmPasswordTexfield");
+        loginButtonLoginView = root.Q<Button>("LoginButtonLoginView");
+        emailTexfieldLogin = root.Q<TextField>("EmailTexfieldLogin");
+        passwordTexfieldLogin = root.Q<TextField>("PasswordTexfieldLogin");
 
         AddTemplateToGrid();
         AddCategoryToList();
@@ -194,6 +222,16 @@ public class UIManager : MonoBehaviour
         returnButtonCart.RegisterCallback<ClickEvent>(evt =>
         {
             StartCoroutine(ShowHideCartView(returnButtonCart));
+        });
+
+        registerButtonRegisterView.RegisterCallback<ClickEvent>(evt =>
+        {
+            SetUserData();
+        });
+
+        loginButtonLoginView.RegisterCallback<ClickEvent>(evt =>
+        {
+            PlayfabManager.instance.OnLogin(emailTexfieldLogin.text, passwordTexfieldLogin.text);
         });
     }
 
@@ -637,5 +675,48 @@ public class UIManager : MonoBehaviour
     void OnCategoryButtonClicked(Button button)
     {
         Debug.Log(button.text);
+    }
+
+    void SetUserData()
+    {
+        TextField[] userDataTextFields = {firstNameTextfield, lastNameTextfield,
+        birthdateTextfield, adressTextfield, zIPCodeTextfield, cityTexfield, phoneNumberTexfield,
+        emailTexfield, passwordTexfield};
+
+        if (passwordTexfield.text == confirmPasswordTexfield.text)
+        {
+            foreach (TextField textField in userDataTextFields)
+            {
+                if (textField.text == null)
+                {
+                    OnUserDataError("Missing info");
+                }
+                else
+                {
+                    UserData userData = new UserData();
+                    userData.firstName = firstNameTextfield.text;
+                    userData.lastName = lastNameTextfield.text;
+                    userData.birthDate = birthdateTextfield.text;
+                    userData.address = adressTextfield.text;
+                    userData.zipCode = zIPCodeTextfield.text;
+                    userData.city = cityTexfield.text;
+                    userData.phoneNumber = phoneNumberTexfield.text;
+                    userData.email = emailTexfield.text;
+                    userData.password = passwordTexfield.text;
+
+                    PlayfabManager.instance.OnRegister(userData);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            OnUserDataError("Passwords don't match");
+        }
+    }
+
+    void OnUserDataError(string error)
+    {
+        Debug.LogError(error);
     }
 }

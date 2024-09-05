@@ -4,40 +4,32 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class DatabaseManager : MonoBehaviour
+namespace Database
 {
-    [SerializeField] AssetReferenceGameObject prefab;
-
-
-    void Start()
+    public class DatabaseManager : MonoBehaviour
     {
-        
-    }
+        [SerializeField] List<AssetReferenceGameObject> prefabs;
+        _3DModelsManager _3DModelsManager;
 
-
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))//test for debug
+        public void LoadObject(int type)
         {
-            LoadObject();
+            prefabs[type].LoadAssetAsync().Completed += OnObjectLoaded;
         }
-    }
 
-    void LoadObject()
-    {
-        prefab.LoadAssetAsync().Completed += OnObjectLoaded;
-    }
-
-    void OnObjectLoaded(AsyncOperationHandle<GameObject> handle)
-    {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        void OnObjectLoaded(AsyncOperationHandle<GameObject> handle)
         {
-            Debug.Log("Loaded");
-            Instantiate(handle.Result);
-        }
-        else
-        {
-            Debug.LogWarning("Can't load the object");
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                if (_3DModelsManager == null)
+                {
+                    _3DModelsManager = GameObject.Find("3DModel").GetComponent<_3DModelsManager>();
+                }
+                _3DModelsManager.InstantiateModel();
+            }
+            else
+            {
+                Debug.LogWarning("Can't load the object");
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 295418040173591012}
   m_Layer: 0
   m_Name: L-Shaped Desk
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

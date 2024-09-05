@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4052297593694247493}
   m_Layer: 0
   m_Name: Standart Wardrobe
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
