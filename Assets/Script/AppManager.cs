@@ -8,6 +8,7 @@ public class AppManager : MonoBehaviour
     public static AppManager instance;
     [SerializeField] UIManager uIManager;
     [SerializeField] public List<SpawnManagerScriptableObject> scriptableObjects;
+    [SerializeField] CameraController cameraController;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class AppManager : MonoBehaviour
         {
             uIManager.LoadingScreen();
             yield return SceneManager.LoadSceneAsync("ARScene", LoadSceneMode.Additive);
+            cameraController.FollowARCamera();
             uIManager.ChangeSceneUI(1);
             uIManager.LoadingScreen();
             _3DModelsManager _3DModelsManager = GameObject.Find("3DModel").GetComponent<_3DModelsManager>();

@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     _3DModelsManager _3DModelsManager;
     ScrollView _0gridContainer;
     VisualElement loadingView;
+    VisualElement loginButtonsHolder;
     ScrollView productPage;
     ScrollView categoryScrollView;
     ScrollView cartScrollView;
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
     Label productName;
     Label productPrice;
     Label productDescription;
+    Label loggedInEmailLabel;
     VisualElement root;
     VisualElement categoryView;
     ScrollView scrollListAR;
@@ -141,6 +143,8 @@ public class UIManager : MonoBehaviour
         loginButtonLoginView = root.Q<Button>("LoginButtonLoginView");
         emailTexfieldLogin = root.Q<TextField>("EmailTexfieldLogin");
         passwordTexfieldLogin = root.Q<TextField>("PasswordTexfieldLogin");
+        loginButtonsHolder = root.Q<VisualElement>("LoginButtonsHolder");
+        loggedInEmailLabel = root.Q<Label>("LoggedInEmailLabel");
 
         AddTemplateToGrid();
         AddCategoryToList();
@@ -718,5 +722,21 @@ public class UIManager : MonoBehaviour
     void OnUserDataError(string error)
     {
         Debug.LogError(error);
+    }
+
+    public void ShowHideLoginInfo(string email)
+    {
+        loginButtonsHolder.style.display =  DisplayStyle.None;
+        loggedInEmailLabel.style.display =  DisplayStyle.Flex;
+        loggedInEmailLabel.text = email;
+
+        if (!registerView.ClassListContains("LoginViewHidden"))
+        {
+            registerView.AddToClassList("LoginViewHidden");
+        }
+        if (!loginView.ClassListContains("LoginViewHidden"))
+        {
+            loginView.AddToClassList("LoginViewHidden");
+        }
     }
 }

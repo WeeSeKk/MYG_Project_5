@@ -12,7 +12,7 @@ TagManager:
   - 3DModel
   - Water
   - UI
-  - 
+  - UIWorldSpace
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Canvas WorldSpace
+    uniqueID: 3455930439
     locked: 0

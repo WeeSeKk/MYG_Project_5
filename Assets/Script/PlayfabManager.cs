@@ -8,6 +8,7 @@ using PlayFab.DataModels;
 public class PlayfabManager : MonoBehaviour
 {
     public static PlayfabManager instance;
+    [SerializeField] UIManager uIManager;
     UserData _userData;
     bool register;
 
@@ -71,6 +72,12 @@ public class PlayfabManager : MonoBehaviour
 
     public void OnLogin(string email, string password)
     {
+        if (_userData == null )
+        {
+            _userData = new UserData();
+        }
+        _userData.email = email;
+        
         var request = new LoginWithEmailAddressRequest
         {
             Email = email,
@@ -92,6 +99,7 @@ public class PlayfabManager : MonoBehaviour
             register = false;
         }
         Debug.Log("Logged In");
+        uIManager.ShowHideLoginInfo(_userData.email);
     }
 }
 

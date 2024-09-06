@@ -55,6 +55,13 @@ public class _3DModelsManager : MonoBehaviour
         tMP_TextName.text = AppManager.instance.scriptableObjects[currentModelID].productName;
         tMP_TextDescription.text = AppManager.instance.scriptableObjects[currentModelID].productDescription;
         Image infoImage = modelInfo.transform.GetChild(0).GetComponent<Image>();
+
+        Debug.Log(_3DModel.GetComponent<MeshRenderer>().bounds.size);
+
+        Vector3 bounds = _3DModel.GetComponent<MeshRenderer>().bounds.size;
+        float boundsRef = bounds.y / 0.43f;
+       
+        modelUIContainer.transform.localScale = Vector3.one * boundsRef;
     }
 
     public GameObject Model()
