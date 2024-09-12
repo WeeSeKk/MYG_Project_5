@@ -15,7 +15,7 @@ public class PlayfabManager : MonoBehaviour
     UserData _userData;
     bool register;
     public bool loggedIn;
-    string cartInfoString;
+    public string cartInfoString;
 
     void Awake()
     {
@@ -116,6 +116,7 @@ public class PlayfabManager : MonoBehaviour
         Debug.Log("Logged In");
         uIManager.ShowHideLoginInfo(_userData.email);
         OnLoadingCart();
+        GetUserInfo();
     }
 
     public async Task OnAddedToCart(string modelID)
@@ -188,6 +189,66 @@ public class PlayfabManager : MonoBehaviour
 
             uIManager.SetupCartView(cartInfostring2);
         }
+    }
+
+    public void UpdateCartInfo(string cartItems)
+    {
+        var request = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string>
+            {
+                {"Cart", cartItems}
+            }
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnUpdatedCartSucces, OnError);
+    }
+
+    void OnUpdatedCartSucces(UpdateUserDataResult result)
+    {
+        Debug.Log("Cart Updated");
+    }
+
+    public void GetUserInfo()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnGetUserInfo, OnError);
+    }
+
+    void OnGetUserInfo(GetUserDataResult result)
+    {
+        UserData userData = new UserData();
+        
+        userData.firstName = result.Data["FirstName"].Value;
+        userData.lastName = result.Data["LastName"].Value;
+        userData.birthDate = result.Data["BirthDate"].Value;
+        userData.address = result.Data["Address"].Value;
+        userData.zipCode = result.Data["ZIPCode"].Value;
+        userData.city = result.Data["City"].Value;
+        userData.phoneNumber = result.Data["PhoneNumber"].Value;
+
+        uIManager.SetupAccountInfos(userData);
+    }
+
+    public void UpdateUserData(UserData userData)
+    {
+        var request = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string>
+            {
+                {"FirstName", userData.firstName},
+                {"LastName", userData.lastName},
+                {"BirthDate", userData.birthDate},
+                {"Address", userData.address},
+                {"ZIPCode", userData.zipCode},
+                {"City", userData.city},
+                {"PhoneNumber", userData.phoneNumber}
+            }
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnUpdatedUserData, OnError);
+    }
+
+    void OnUpdatedUserData(UpdateUserDataResult result)
+    {
+        Debug.Log("User Info Updated");
     }
 }
 

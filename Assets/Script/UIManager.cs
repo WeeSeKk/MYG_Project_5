@@ -78,7 +78,20 @@ public class UIManager : MonoBehaviour
     TextField confirmPasswordTexfield;
     TextField emailTexfieldLogin;
     TextField passwordTexfieldLogin;
+    TextField firstNameTextfieldAccount;
+    TextField lastNameTextfieldAccount;
+    TextField birthdateTextfieldAccount;
+    TextField adressTextfieldAccount;
+    TextField zIPCodeTextfieldAccount;
+    TextField cityTexfieldAccount;
+    TextField phoneNumberTexfieldAccount;
     Button loginButtonLoginView;
+    Button searchButton;
+    VisualElement yourAccountView;
+    Button yourAccountButton;
+    Button returnButtonAccount;
+    Button saveChangeButton;
+    TextField mainPageTextfield;
     bool productLoaded;
     string _productID;
     int modelID;
@@ -146,19 +159,59 @@ public class UIManager : MonoBehaviour
         passwordTexfieldLogin = root.Q<TextField>("PasswordTexfieldLogin");
         loginButtonsHolder = root.Q<VisualElement>("LoginButtonsHolder");
         loggedInEmailLabel = root.Q<Label>("LoggedInEmailLabel");
+        yourAccountButton = root.Q<Button>("YourAccountButton");
+        yourAccountView = root.Q<VisualElement>("YourAccountView");
+        returnButtonAccount = root.Q<Button>("ReturnButtonAccount");
+        saveChangeButton = root.Q<Button>("SaveChangeButton");
+        searchButton = root.Q<Button>("SearchButton");
+        mainPageTextfield = root.Q<TextField>("MainPageTextfield");
+
+        firstNameTextfieldAccount = root.Q<TextField>("FirstNameTextfieldAccount");
+        lastNameTextfieldAccount = root.Q<TextField>("LastNameTextfieldAccount");
+        birthdateTextfieldAccount = root.Q<TextField>("BirthdateTextfieldAccount");
+        adressTextfieldAccount = root.Q<TextField>("AdressTextfieldAccount");
+        zIPCodeTextfieldAccount = root.Q<TextField>("ZIPCodeTextfieldAccount");
+        cityTexfieldAccount = root.Q<TextField>("CityTexfieldAccount");
+        phoneNumberTexfieldAccount = root.Q<TextField>("PhoneNumberTexfieldAccount");
 
         AddTemplateToGrid();
         AddCategoryToList();
-        //SetupCartView();
 
         if (productLoaded)
         {
             SetupButtons(1);
         }
 
+        searchButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            UpdateMainGrid(mainPageTextfield.text);
+        });
+
         arButton.RegisterCallback<ClickEvent>(evt =>
         {
             StartCoroutine(AppManager.instance.LoadScenes(modelID));
+        });
+
+        returnButtonAccount.RegisterCallback<ClickEvent>(evt =>
+        {
+            ShowHideAccountView();
+        });
+
+        saveChangeButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            UpdateUserData();
+        });
+
+        yourAccountButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            if (PlayfabManager.instance.loggedIn == true)
+            {
+                ShowHideAccountView();
+            }
+            else
+            {
+                ShowHideLoginView(loginButton);
+            }
         });
 
         returnButton.RegisterCallback<ClickEvent>(evt =>
@@ -332,9 +385,63 @@ public class UIManager : MonoBehaviour
             _0gridContainer.Add(templateInstance);
             scrollListAR.Add(templateInstanceAR);
             count++;
-
         }
         productLoaded = true;
+    }
+
+    void UpdateMainGrid(string category)
+    {
+        if (mainPageTextfield.text != "")
+        {
+            _0gridContainer.style.display = DisplayStyle.None;
+
+            for (int a = 0; a < cartScrollView.childCount; a++)
+            {
+                _0gridContainer.Remove(_0gridContainer[a]);
+            }
+
+            _0gridContainer.Clear();
+
+            for (int i = 0; i < AppManager.instance.scriptableObjects.Count; i++)
+            {
+                if (AppManager.instance.scriptableObjects[i].productCategory.Contains(category))
+                {
+                    VisualElement templateInstance = productTemplate.Instantiate();
+
+                    templateInstance.style.width = new Length(50, LengthUnit.Percent);
+                    templateInstance.style.height = new Length(40, LengthUnit.Percent);
+                    templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+
+                    VisualElement productImage = templateInstance.Q<VisualElement>("ProductImage");
+                    productImage.style.backgroundImage = AppManager.instance.scriptableObjects[i].modelImage;
+                    Label productID = templateInstance.Q<Label>("ProductID");
+                    productID.text = AppManager.instance.scriptableObjects[i].modelID;
+                    Label productName = templateInstance.Q<Label>("ProductName");
+                    productName.text = AppManager.instance.scriptableObjects[i].productName;
+                    Label productDescription = templateInstance.Q<Label>("ProductDescription");
+                    productDescription.text = AppManager.instance.scriptableObjects[i].shortProductDescription;
+                    Label productPrice = templateInstance.Q<Label>("ProductPrice");
+                    productPrice.text = AppManager.instance.scriptableObjects[i].productPrice.ToString() + " $";
+
+                    _0gridContainer.Add(templateInstance);
+                }
+            }
+
+            _0gridContainer.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            scriptableObjects.Clear();
+            
+            for (int a = 0; a < cartScrollView.childCount; a++)
+            {
+                _0gridContainer.Remove(_0gridContainer[a]);
+            }
+
+            _0gridContainer.Clear();
+            
+            AddTemplateToGrid();
+        }
     }
 
     void AddCategoryToList()
@@ -391,7 +498,7 @@ public class UIManager : MonoBehaviour
         cartScrollView.style.display = DisplayStyle.None;
         float cartViewHeight = 0;
 
-        for (int a = 0; a < cartScrollView.childCount; a ++)
+        for (int a = 0; a < cartScrollView.childCount; a++)
         {
             cartScrollView.Remove(cartScrollView[a]);
         }
@@ -467,7 +574,46 @@ public class UIManager : MonoBehaviour
 
     void DeleteCartProduct(Button button)
     {
-        Debug.Log(button);
+        VisualElement parent = button.parent;
+        VisualElement grandParent = parent.parent;
+        VisualElement grandGrandParent = grandParent.parent;
+        Label productID = parent.Q<Label>("ProductID");
+
+        for (int i = 0; i < cartScrollView.childCount; i++)
+        {
+            if (cartScrollView[i] == grandGrandParent)
+            {
+                //modify string and remove item from API
+                string[] stringArray = PlayfabManager.instance.cartInfoString.Split(',');
+                List<string> newStringList = new List<string>();
+
+                foreach (string num in stringArray)
+                {
+                    if (num != productID.text)
+                    {
+                        newStringList.Add(num);
+                    }
+                }
+                string newCartInfoString = string.Join(",", newStringList);
+
+                PlayfabManager.instance.UpdateCartInfo(newCartInfoString);
+
+                break;
+            }
+        }
+
+        cartScrollView.Remove(grandGrandParent);
+    }
+
+    public void SetupAccountInfos(UserData userData)
+    {
+        firstNameTextfieldAccount.value = userData.firstName;
+        lastNameTextfieldAccount.value = userData.lastName;
+        birthdateTextfieldAccount.value = userData.birthDate;
+        adressTextfieldAccount.value = userData.address;
+        zIPCodeTextfieldAccount.value = userData.zipCode;
+        cityTexfieldAccount.value = userData.city;
+        phoneNumberTexfieldAccount.value = userData.phoneNumber;
     }
 
     void AddInfoToCartTemplate(VisualElement template, string modelID)
@@ -661,6 +807,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void ShowHideAccountView()
+    {
+        if (yourAccountView.ClassListContains("LoginViewHidden"))
+        {
+            yourAccountView.RemoveFromClassList("LoginViewHidden");
+        }
+        else
+        {
+            yourAccountView.AddToClassList("LoginViewHidden");
+        }
+    }
+
     public void LoadingScreen()
     {
         if (loadingView.ClassListContains("LoadingViewHidden"))
@@ -796,6 +954,35 @@ public class UIManager : MonoBehaviour
         else
         {
             OnUserDataError("Passwords don't match");
+        }
+    }
+
+    void UpdateUserData()
+    {
+        TextField[] userDataTextFields = {firstNameTextfieldAccount, lastNameTextfieldAccount,
+        birthdateTextfieldAccount, adressTextfieldAccount, zIPCodeTextfieldAccount, cityTexfieldAccount,
+        phoneNumberTexfieldAccount};
+
+        foreach (TextField textField in userDataTextFields)
+        {
+            if (textField.text == null)
+            {
+                OnUserDataError("Missing info");
+            }
+            else
+            {
+                UserData userData = new UserData();
+                userData.firstName = firstNameTextfieldAccount.text;
+                userData.lastName = lastNameTextfieldAccount.text;
+                userData.birthDate = birthdateTextfieldAccount.text;
+                userData.address = adressTextfieldAccount.text;
+                userData.zipCode = zIPCodeTextfieldAccount.text;
+                userData.city = cityTexfieldAccount.text;
+                userData.phoneNumber = phoneNumberTexfieldAccount.text;
+
+                PlayfabManager.instance.UpdateUserData(userData);
+                break;
+            }
         }
     }
 
