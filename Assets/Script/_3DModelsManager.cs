@@ -58,10 +58,10 @@ public class _3DModelsManager : MonoBehaviour
 
         Debug.Log(_3DModel.GetComponent<MeshRenderer>().bounds.size);
 
-        Vector3 bounds = _3DModel.GetComponent<MeshRenderer>().bounds.size;
+        /*Vector3 bounds = _3DModel.GetComponent<MeshRenderer>().bounds.size;
         float boundsRef = bounds.y / 0.43f;
        
-        modelUIContainer.transform.localScale = Vector3.one * boundsRef;
+        modelUIContainer.transform.localScale = Vector3.one * boundsRef;*/
     }
 
     public GameObject Model()

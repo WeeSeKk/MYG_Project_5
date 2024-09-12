@@ -15,4 +15,5 @@ public class SpawnManagerScriptableObject : ScriptableObject
     public float productPrice;
     public string modelID;
     public int productID;
+    public string productCategory;
 }

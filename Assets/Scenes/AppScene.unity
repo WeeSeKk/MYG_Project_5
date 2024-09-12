@@ -568,6 +568,8 @@ MonoBehaviour:
     type: 3}
   cartStartTemplate: {fileID: 9197481963319205126, guid: 6705e139aa77f5e42922f08f475908b4,
     type: 3}
+  cartButtonTemplate: {fileID: 9197481963319205126, guid: c04b2576604d08d499019f65c1c9ab2b,
+    type: 3}
   categorySO:
   - {fileID: 11400000, guid: 257f88a7919e9f142a73e0c9a4fb409e, type: 2}
   - {fileID: 11400000, guid: 0543370599e019247810a98e8d3b1689, type: 2}
@@ -603,6 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIManager: {fileID: 544945957}
+  loggedIn: 0
 --- !u!4 &722496635
 Transform:
   m_ObjectHideFlags: 0

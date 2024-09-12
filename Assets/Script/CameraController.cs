@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (scene2)
+        if (scene2 && arCamera != null)
         {
             this.transform.position = arCamera.transform.position;
             this.transform.rotation = arCamera.transform.rotation;

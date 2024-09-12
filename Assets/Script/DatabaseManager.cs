@@ -9,11 +9,21 @@ namespace Database
     public class DatabaseManager : MonoBehaviour
     {
         [SerializeField] List<AssetReferenceGameObject> prefabs;
+        List<AssetReferenceGameObject> loadedPrefabs = new List<AssetReferenceGameObject>();
         _3DModelsManager _3DModelsManager;
 
         public void LoadObject(int type)
         {
-            prefabs[type].LoadAssetAsync().Completed += OnObjectLoaded;
+            if (!loadedPrefabs.Contains(prefabs[type]))
+            {
+                prefabs[type].LoadAssetAsync().Completed += OnObjectLoaded;
+                loadedPrefabs.Add(prefabs[type]);
+            }
+            else
+            {
+                _3DModelsManager = GameObject.Find("3DModel").GetComponent<_3DModelsManager>();
+                _3DModelsManager.InstantiateModel();
+            }
         }
 
         void OnObjectLoaded(AsyncOperationHandle<GameObject> handle)

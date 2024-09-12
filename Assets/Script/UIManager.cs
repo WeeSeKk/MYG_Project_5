@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] VisualTreeAsset listViewItem;
     [SerializeField] VisualTreeAsset endOfCategory;
     [SerializeField] VisualTreeAsset cartStartTemplate;
+    [SerializeField] VisualTreeAsset cartButtonTemplate;
     [SerializeField] public List<CategoryScriptableObject> categorySO;
     List<SpawnManagerScriptableObject> scriptableObjects = new List<SpawnManagerScriptableObject>();
     List<string> categoryList = new List<string>();
@@ -148,7 +149,7 @@ public class UIManager : MonoBehaviour
 
         AddTemplateToGrid();
         AddCategoryToList();
-        SetupCartView();
+        //SetupCartView();
 
         if (productLoaded)
         {
@@ -220,12 +221,14 @@ public class UIManager : MonoBehaviour
 
         cartButton.RegisterCallback<ClickEvent>(evt =>
         {
-            StartCoroutine(ShowHideCartView(cartButton));
-        });
-
-        returnButtonCart.RegisterCallback<ClickEvent>(evt =>
-        {
-            StartCoroutine(ShowHideCartView(returnButtonCart));
+            if (PlayfabManager.instance.loggedIn == true)
+            {
+                StartCoroutine(ShowHideCartView(cartButton));
+            }
+            else
+            {
+                ShowHideLoginView(loginButton);
+            }
         });
 
         registerButtonRegisterView.RegisterCallback<ClickEvent>(evt =>
@@ -237,13 +240,25 @@ public class UIManager : MonoBehaviour
         {
             PlayfabManager.instance.OnLogin(emailTexfieldLogin.text, passwordTexfieldLogin.text);
         });
+
+        addToCartButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            if (PlayfabManager.instance.loggedIn == true)
+            {
+                PlayfabManager.instance.OnAddedToCart(_productID);
+            }
+            else
+            {
+                ShowHideLoginView(loginButton);
+            }
+        });
     }
 
     void Update()
     {
         if (Input.GetKeyDown("space"))//test for debug
         {
-
+            //PlayfabManager.instance. OnLoadingCart();
         }
         if (Input.GetKeyDown("w"))//test for debug
         {
@@ -371,30 +386,43 @@ public class UIManager : MonoBehaviour
         SetupCategoryButtons();
     }
 
-    void SetupCartView()
+    public void SetupCartView(string items)
     {
+        cartScrollView.style.display = DisplayStyle.None;
+        float cartViewHeight = 0;
+
+        for (int a = 0; a < cartScrollView.childCount; a ++)
+        {
+            cartScrollView.Remove(cartScrollView[a]);
+        }
+
+        cartScrollView.Clear();
+
         VisualElement templateInstance;
-        int itemsInCart = 5;
 
         templateInstance = cartStartTemplate.Instantiate();
         templateInstance.style.width = new Length(100, LengthUnit.Percent);
         templateInstance.style.height = new Length(25, LengthUnit.Percent);
         templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+        cartViewHeight += 100;
 
         cartScrollView.Add(templateInstance);
 
         returnButtonCart = root.Q<Button>("ReturnButtonCart");
 
-        for (int a = 0; a < itemsInCart; a++)
+        string[] stringArray = items.Split(',');
+
+        foreach (string id in stringArray)
         {
             cartScrollView.style.justifyContent = Justify.SpaceBetween;
 
-            templateInstance = productTemplateAR.Instantiate();
+            templateInstance = cartButtonTemplate.Instantiate();
             templateInstance.style.width = new Length(100, LengthUnit.Percent);
             templateInstance.style.height = new Length(15, LengthUnit.Percent);
             templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+            cartViewHeight += 15;
 
-            //AddInfoToTemplate(templateInstance);
+            AddInfoToCartTemplate(templateInstance, id);
             cartScrollView.Add(templateInstance);
         }
 
@@ -402,6 +430,7 @@ public class UIManager : MonoBehaviour
         templateInstance.style.width = new Length(100, LengthUnit.Percent);
         templateInstance.style.height = new Length(40, LengthUnit.Percent);
         templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+        cartViewHeight += 40;
 
         cartScrollView.Add(templateInstance);
 
@@ -409,11 +438,62 @@ public class UIManager : MonoBehaviour
         templateInstance.style.width = new Length(100, LengthUnit.Percent);
         templateInstance.style.height = new Length(50, LengthUnit.Percent);
         templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+        cartViewHeight += 50;
 
         cartScrollView.Add(templateInstance);
 
 
         cartScrollView.style.display = DisplayStyle.Flex;
+
+        returnButtonCart.RegisterCallback<ClickEvent>(evt =>
+        {
+            StartCoroutine(ShowHideCartView(returnButtonCart));
+        });
+
+        SetupCartItemsButton();
+
+        cartScrollView.style.display = DisplayStyle.Flex;
+    }
+
+    void SetupCartItemsButton()
+    {
+        var deleteCartProductButton = root.Query<Button>("DeleteButton").ToList();
+
+        foreach (var button in deleteCartProductButton)
+        {
+            button.clicked += () => DeleteCartProduct(button);
+        }
+    }
+
+    void DeleteCartProduct(Button button)
+    {
+        Debug.Log(button);
+    }
+
+    void AddInfoToCartTemplate(VisualElement template, string modelID)
+    {
+        for (int i = 0; i < AppManager.instance.scriptableObjects.Count; i++)
+        {
+            if (AppManager.instance.scriptableObjects[i].modelID == modelID)
+            {
+                VisualElement productImage = template.Q<VisualElement>("ProductImage");
+                productImage.style.backgroundImage = AppManager.instance.scriptableObjects[i].modelImage;
+
+                Label productID = template.Q<Label>("ProductID");
+                productID.text = AppManager.instance.scriptableObjects[i].modelID;
+
+                Label productName = template.Q<Label>("ProductName");
+                productName.text = AppManager.instance.scriptableObjects[i].productName;
+
+                Label productDescription = template.Q<Label>("ProductDescription");
+                productDescription.text = AppManager.instance.scriptableObjects[i].shortProductDescription;
+
+                Label productPrice = template.Q<Label>("ProductPrice");
+                productPrice.text = AppManager.instance.scriptableObjects[i].productPrice.ToString() + " $";
+
+                break;
+            }
+        }
     }
 
     void SetupButtons(int scene)
@@ -726,8 +806,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowHideLoginInfo(string email)
     {
-        loginButtonsHolder.style.display =  DisplayStyle.None;
-        loggedInEmailLabel.style.display =  DisplayStyle.Flex;
+        loginButtonsHolder.style.display = DisplayStyle.None;
+        loggedInEmailLabel.style.display = DisplayStyle.Flex;
         loggedInEmailLabel.text = email;
 
         if (!registerView.ClassListContains("LoginViewHidden"))
