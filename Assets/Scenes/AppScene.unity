@@ -606,6 +606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIManager: {fileID: 544945957}
   loggedIn: 0
+  cartInfoString: 
 --- !u!4 &722496635
 Transform:
   m_ObjectHideFlags: 0

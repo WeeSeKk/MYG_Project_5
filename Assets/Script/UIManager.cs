@@ -92,7 +92,6 @@ public class UIManager : MonoBehaviour
     Button returnButtonAccount;
     Button saveChangeButton;
     TextField mainPageTextfield;
-    bool productLoaded;
     string _productID;
     int modelID;
     int containerCategoryHeight;
@@ -177,14 +176,9 @@ public class UIManager : MonoBehaviour
         AddTemplateToGrid();
         AddCategoryToList();
 
-        if (productLoaded)
-        {
-            SetupButtons(1);
-        }
-
         searchButton.RegisterCallback<ClickEvent>(evt =>
         {
-            UpdateMainGrid(mainPageTextfield.text);
+            UpdateMainGrid(mainPageTextfield.text, false);
         });
 
         arButton.RegisterCallback<ClickEvent>(evt =>
@@ -386,12 +380,22 @@ public class UIManager : MonoBehaviour
             scrollListAR.Add(templateInstanceAR);
             count++;
         }
-        productLoaded = true;
+        SetupButtons(1);
     }
 
-    void UpdateMainGrid(string category)
+    void UpdateMainGrid(string category, bool textfield)
     {
-        if (mainPageTextfield.text != "")
+        bool found = false;
+
+        for (int i = 0; i < AppManager.instance.scriptableObjects.Count; i++)
+        {
+            if (AppManager.instance.scriptableObjects[i].productCategory.Contains(category))
+            {
+                found = true;
+            }
+        }
+
+        if (mainPageTextfield.text != "" && found || textfield)
         {
             _0gridContainer.style.display = DisplayStyle.None;
 
@@ -432,16 +436,17 @@ public class UIManager : MonoBehaviour
         else
         {
             scriptableObjects.Clear();
-            
+
             for (int a = 0; a < cartScrollView.childCount; a++)
             {
                 _0gridContainer.Remove(_0gridContainer[a]);
             }
 
             _0gridContainer.Clear();
-            
+
             AddTemplateToGrid();
         }
+        SetupButtons(1);
     }
 
     void AddCategoryToList()
@@ -916,6 +921,8 @@ public class UIManager : MonoBehaviour
 
     void OnCategoryButtonClicked(Button button)
     {
+        UpdateMainGrid(button.text, true);
+        ShowHideCategory();
         Debug.Log(button.text);
     }
 
