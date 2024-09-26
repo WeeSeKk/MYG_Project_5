@@ -19,7 +19,6 @@ public class ARUIManager : MonoBehaviour
     Quaternion originalRotation;
     Image modelInfo;
     LeanDragTranslate leanDragTranslate;
-    LeanTouch leanTouch;
     bool showInfo;
 
     void OnEnable()
@@ -63,7 +62,7 @@ public class ARUIManager : MonoBehaviour
             this.transform.position = linkedGameobject.transform.position;
         }
 
-        //transform.rotation = _camera.transform.rotation * originalRotation;
+        transform.rotation = _camera.transform.rotation * originalRotation;
     }
 
     public void DeleteModel()
@@ -138,7 +137,7 @@ public class ARUIManager : MonoBehaviour
 
     public void AddModelToCart()
     {
-        //add product to cart
+        //PlayfabManager.instance.OnAddedToCart(_productID);
     }
 
     public void ShowHideModelInfo()

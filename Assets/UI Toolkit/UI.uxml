@@ -144,7 +144,7 @@
             <ui:VisualElement style="flex-grow: 1; position: absolute; left: 0; top: 83%; right: 0; bottom: 16%; background-image: url(&quot;project://database/Assets/Custom/51816_5860.png?fileID=2800000&amp;guid=f2633b5e0e5cec64ca52e466166360fc&amp;type=3#51816_5860&quot;);" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="ARView" picking-mode="Ignore" style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0); display: none; opacity: 1; overflow: visible;">
+    <ui:VisualElement name="ARView" picking-mode="Ignore" style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0); opacity: 1; overflow: visible; display: none;">
         <ui:VisualElement name="ProductInfos" picking-mode="Ignore" class="ProductInfoBase">
             <ui:VisualElement name="ProductImageInfo" style="flex-grow: 1; position: absolute; left: 5%; top: 15%; right: 67%; bottom: 15%; background-color: rgb(0, 0, 0); border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;" />
             <ui:Label tabindex="-1" text="Product Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ProductNameInfo" style="position: absolute; left: 35%; top: 15%; right: 14%; bottom: 71%; font-size: 33px; -unity-text-align: middle-left; -unity-font-style: bold;" />

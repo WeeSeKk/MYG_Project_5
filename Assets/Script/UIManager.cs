@@ -303,7 +303,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("space"))//test for debug
+        /*if (Input.GetKeyDown("space"))//test for debug
         {
             //PlayfabManager.instance. OnLoadingCart();
         }
@@ -317,7 +317,7 @@ public class UIManager : MonoBehaviour
             {
                 cartScrollView.style.display = DisplayStyle.None;
             }
-        }
+        }*/
     }
 
     void OnButtonClick(Button button)
@@ -463,7 +463,7 @@ public class UIManager : MonoBehaviour
             button.text = categorySO[i].categoryHeader + " :";
             button.style.fontSize = 70;
             button.style.unityTextAlign = TextAnchor.MiddleLeft;
-            Debug.Log(button.text);
+            //Debug.Log(button.text);
             containerCategoryHeight += 100;
 
             categoryScrollView.Add(templateInstance);
