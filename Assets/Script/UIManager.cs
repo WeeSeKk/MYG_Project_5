@@ -173,7 +173,7 @@ public class UIManager : MonoBehaviour
         cityTexfieldAccount = root.Q<TextField>("CityTexfieldAccount");
         phoneNumberTexfieldAccount = root.Q<TextField>("PhoneNumberTexfieldAccount");
 
-        AddTemplateToGrid();
+        //AddTemplateToGrid();
         AddCategoryToList();
 
         searchButton.RegisterCallback<ClickEvent>(evt =>
@@ -358,28 +358,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void AddTemplateToGrid()
+    public void AddTemplateToGrid()
     {
-        int count = 0;
+        _0gridContainer.style.display = DisplayStyle.None;
 
-        while (count < AppManager.instance.scriptableObjects.Count)
-        {
-            VisualElement templateInstance = productTemplate.Instantiate();
-            VisualElement templateInstanceAR = productTemplateAR.Instantiate();
+        VisualElement templateInstance = productTemplate.Instantiate();
+        VisualElement templateInstanceAR = productTemplateAR.Instantiate();
 
-            templateInstance.style.width = new Length(50, LengthUnit.Percent);
-            templateInstance.style.height = new Length(40, LengthUnit.Percent);
-            templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+        templateInstance.style.width = new Length(50, LengthUnit.Percent);
+        templateInstance.style.height = new Length(40, LengthUnit.Percent);
+        templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-            templateInstanceAR.style.width = new Length(100, LengthUnit.Percent);
-            templateInstanceAR.style.height = new Length(30, LengthUnit.Percent);
-            templateInstanceAR.transform.scale = new Vector3(1f, 1f, 1.0f);
+        templateInstanceAR.style.width = new Length(100, LengthUnit.Percent);
+        templateInstanceAR.style.height = new Length(30, LengthUnit.Percent);
+        templateInstanceAR.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-            AddInfoToTemplate(templateInstance, templateInstanceAR);
-            _0gridContainer.Add(templateInstance);
-            scrollListAR.Add(templateInstanceAR);
-            count++;
-        }
+        AddInfoToTemplate(templateInstance, templateInstanceAR);
+        _0gridContainer.Add(templateInstance);
+        scrollListAR.Add(templateInstanceAR);
+
+        _0gridContainer.style.display = DisplayStyle.Flex;
+
         SetupButtons(1);
     }
 
@@ -681,7 +680,7 @@ public class UIManager : MonoBehaviour
 
     void AddInfoToTemplate(VisualElement template, VisualElement templateAR)
     {
-        foreach (var scriptableObject in AppManager.instance.scriptableObjects)
+        foreach (var scriptableObject in APIManager.instance.scriptableObjects)
         {
             if (!scriptableObjects.Contains(scriptableObject))
             {

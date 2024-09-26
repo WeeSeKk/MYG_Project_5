@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad452cad184f7094eadf816e6dad8321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test_Model: {fileID: 11400000, guid: f73123254502e994cb2400e438adb9b1, type: 2}
+  uIManager: {fileID: 544945957}
+  scriptableObjects: []
 --- !u!4 &111581675
 Transform:
   m_ObjectHideFlags: 0

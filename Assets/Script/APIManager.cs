@@ -1,22 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UnityEngine.Networking;
-using Newtonsoft;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
-using TMPro;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class APIManager : MonoBehaviour
 {
-    SpawnManagerScriptableObject spawnManagerScriptableObject;
+    [SerializeField] UIManager uIManager;
+    public static APIManager instance;
+    public List<SpawnManagerScriptableObject> scriptableObjects;
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     void Start()
     {
-        string productName = "Double%20Bed";
-        string url = "http://localhost/MYG/index.php?fullproductinfo=" + productName;
+        string url = "http://localhost/MYG/index.php?fullproductinfo=Double%20Bed";
         StartCoroutine(GetRequest(url));
     }
 
@@ -25,7 +36,7 @@ public class APIManager : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             yield return webRequest.SendWebRequest();
-        
+
             string[] pages = uri.Split('/');
             int page = pages.Length - 1;
 
@@ -60,12 +71,11 @@ public class APIManager : MonoBehaviour
                 SetupSO(productInfo);
             }
         }
-        
     }
 
     void SetupSO(ProductInfo productInfo)
     {
-        SpawnManagerScriptableObject newScriptableObject =  ScriptableObject.CreateInstance<SpawnManagerScriptableObject>();
+        SpawnManagerScriptableObject newScriptableObject = ScriptableObject.CreateInstance<SpawnManagerScriptableObject>();
 
         newScriptableObject.productID = productInfo.product_ID;
         newScriptableObject.modelID = productInfo.product_ID.ToString();
@@ -74,13 +84,11 @@ public class APIManager : MonoBehaviour
         newScriptableObject.shortProductDescription = productInfo.short_Descritption;
         newScriptableObject.productDescription = productInfo.full_Descritption;
         newScriptableObject.productCategory = productInfo.tags;
+        newScriptableObject.modelImage = Resources.Load<Texture2D>("ProductImages/" + productInfo.product_Name);
+        Addressables.LoadAssetAsync<GameObject>("Assets/Addressables/Furnitures/" + productInfo.product_Name + ".prefab");
 
-        Debug.Log(productInfo.product_ID);
-        Debug.Log(productInfo.product_Name);
-        Debug.Log(productInfo.price);
-        Debug.Log(productInfo.short_Descritption);
-        Debug.Log(productInfo.full_Descritption);
-        Debug.Log(productInfo.tags);
+        scriptableObjects.Add(newScriptableObject);
+        uIManager.AddTemplateToGrid();
     }
 }
 

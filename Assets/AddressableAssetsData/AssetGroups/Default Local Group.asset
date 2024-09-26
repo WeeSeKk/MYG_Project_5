@@ -17,108 +17,128 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1a56f38879cb43741984ff322a89575f
   m_SerializeEntries:
+  - m_GUID: 5deb2a45ea7893a4494352729f3db80a
+    m_Address: Assets/Addressables/Furnitures/Twin Wardrobe.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ad6a220f19763fa4ea38121bf97cf23b
-    m_Address: Assets/Prefab/Furnitures/Triple Cactus.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fada9889e48fe684a9556691126f140a
-    m_Address: Assets/Prefab/Furnitures/Armchair.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2d737ac01fe4d304abfddd6886a1e3d8
-    m_Address: Assets/Prefab/Furnitures/Blue Flower.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a9663d11f2ad8b14cb1bbdf177665c09
-    m_Address: Assets/Prefab/Furnitures/Couch.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4641d79b4402dbf4499889ce51e65bc5
-    m_Address: Assets/Prefab/Furnitures/Cylinder Lamp.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 49952ad1404283944a47bd8f35f93375
-    m_Address: Assets/Prefab/Furnitures/Desk.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 98afb99bf7a7d4d48a49020d10a1c574
-    m_Address: Assets/Prefab/Furnitures/Double Bed.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7a7fff0345aec4e4e8e58e48b4a093f1
-    m_Address: Assets/Prefab/Furnitures/L-Shaped Couch.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 910912148a3e75844aa6db05e038ab3a
-    m_Address: Assets/Prefab/Furnitures/L-Shaped Desk.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ede49cd2dc6eb2543860fe2539a670bd
-    m_Address: Assets/Prefab/Furnitures/Lamp.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2a24a8d1f96a235458dcb6d44eb24d66
-    m_Address: Assets/Prefab/Furnitures/Nightstand.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6a8e35a782f6c104b9cd9ffd6f40addf
-    m_Address: Assets/Prefab/Furnitures/Pink Vase.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bed0eab721da5d94db313a7e7c13adad
-    m_Address: Assets/Prefab/Furnitures/Rectangle Table .prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14ec93495dfe66f489aeabddd304c43b
-    m_Address: Assets/Prefab/Furnitures/Round Table.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 696843d77904eb24fbda6b217251b03d
-    m_Address: Assets/Prefab/Furnitures/Short Nightstand.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ffa560051d10cb64b842782941403ce7
-    m_Address: Assets/Prefab/Furnitures/Single Bed.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e1cc405617cc1934aa5fb33c96a99e23
-    m_Address: Assets/Prefab/Furnitures/Standart Bookshelf.prefab
+    m_Address: Assets/Addressables/Furnitures/Triple Cactus.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b9d7d48ccec2236438c2321fbaa33f7f
-    m_Address: Assets/Prefab/Furnitures/Table.prefab
+    m_Address: Assets/Addressables/Furnitures/Table.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14ec93495dfe66f489aeabddd304c43b
+    m_Address: Assets/Addressables/Furnitures/Round Table.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 696843d77904eb24fbda6b217251b03d
+    m_Address: Assets/Addressables/Furnitures/Short Nightstand.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1cc405617cc1934aa5fb33c96a99e23
+    m_Address: Assets/Addressables/Furnitures/Standart Bookshelf.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9663d11f2ad8b14cb1bbdf177665c09
+    m_Address: Assets/Addressables/Furnitures/Couch.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bed0eab721da5d94db313a7e7c13adad
+    m_Address: Assets/Addressables/Furnitures/Rectangle Table .prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fada9889e48fe684a9556691126f140a
+    m_Address: Assets/Addressables/Furnitures/Armchair.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ede49cd2dc6eb2543860fe2539a670bd
+    m_Address: Assets/Addressables/Furnitures/Lamp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4641d79b4402dbf4499889ce51e65bc5
+    m_Address: Assets/Addressables/Furnitures/Cylinder Lamp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49952ad1404283944a47bd8f35f93375
+    m_Address: Assets/Addressables/Furnitures/Desk.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d737ac01fe4d304abfddd6886a1e3d8
+    m_Address: Assets/Addressables/Furnitures/Blue Flower.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffa560051d10cb64b842782941403ce7
+    m_Address: Assets/Addressables/Furnitures/Single Bed.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a8e35a782f6c104b9cd9ffd6f40addf
+    m_Address: Assets/Addressables/Furnitures/Pink Vase.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a24a8d1f96a235458dcb6d44eb24d66
+    m_Address: Assets/Addressables/Furnitures/Nightstand.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b320e2ed620c15649b36d7d6515d4d46
-    m_Address: Assets/Prefab/Furnitures/Thin Chair.prefab
+    m_Address: Assets/Addressables/Furnitures/Thin Chair.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98afb99bf7a7d4d48a49020d10a1c574
+    m_Address: Assets/Addressables/Furnitures/Double Bed.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ac4565d9336aaaa40b924cc8c5f2e8c3
-    m_Address: Assets/Prefab/Furnitures/Triple Flower.prefab
+    m_Address: Assets/Addressables/Furnitures/Triple Flower.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5deb2a45ea7893a4494352729f3db80a
-    m_Address: Assets/Prefab/Furnitures/Twin Wardrobe.prefab
+  - m_GUID: 7a7fff0345aec4e4e8e58e48b4a093f1
+    m_Address: Assets/Addressables/Furnitures/L-Shaped Couch.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 910912148a3e75844aa6db05e038ab3a
+    m_Address: Assets/Addressables/Furnitures/L-Shaped Desk.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f46fa69988f764c40b049c5824f34028
+    m_Address: Assets/Addressables/Furnitures/Standart Chair.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b8499ba2de2f6747a9e3abe1f339e73
+    m_Address: Assets/Addressables/Furnitures/Standart Wardrobe.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e4d261eb9625ee47b4c8309f94344fd
+    m_Address: Assets/Addressables/Furnitures/Vaselamp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cffa92834fb91aa4280091cdf39fdd5d
+    m_Address: Assets/Addressables/Furnitures/Yellow Vase.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
