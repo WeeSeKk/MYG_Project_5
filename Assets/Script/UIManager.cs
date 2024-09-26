@@ -328,12 +328,10 @@ public class UIManager : MonoBehaviour
             Label productID = template.Q<Label>("ProductID");
 
             ShowHideProductPage(productID.text);
-
-            Debug.Log("Product Button");
         }
         else if (button.name == "FavoriteButton")
         {
-            Debug.Log("Favorite Button");
+
         }
         else if (button.name == "ProductButtonAR")
         {
@@ -351,10 +349,11 @@ public class UIManager : MonoBehaviour
                 }
             }
             ShowHideARList();
+            return;
         }
         else if (button.name == "FavoriteButtonAR")
         {
-            Debug.Log("Favorite Button AR");
+
         }
     }
 

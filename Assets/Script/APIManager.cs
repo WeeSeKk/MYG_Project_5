@@ -66,7 +66,7 @@ public class APIManager : MonoBehaviour
                 productInfo.short_Descritption = keys.GetValue("Short_Descritption").ToString();
                 productInfo.full_Descritption = keys.GetValue("Full_Descritption").ToString();
                 productInfo.tags = keys.GetValue("Tags").ToString();
-                productInfo.prefabAdress = keys.GetValue("Prefab").ToString();
+                productInfo.prefabPath = keys.GetValue("Prefab").ToString();
 
                 SetupSO(productInfo);
             }
@@ -85,7 +85,7 @@ public class APIManager : MonoBehaviour
         newScriptableObject.productDescription = productInfo.full_Descritption;
         newScriptableObject.productCategory = productInfo.tags;
         newScriptableObject.modelImage = Resources.Load<Texture2D>("ProductImages/" + productInfo.product_Name);
-        Addressables.LoadAssetAsync<GameObject>("Assets/Addressables/Furnitures/" + productInfo.product_Name + ".prefab");
+        Addressables.LoadAssetAsync<GameObject>(productInfo.prefabPath);
 
         scriptableObjects.Add(newScriptableObject);
         uIManager.AddTemplateToGrid();
@@ -100,5 +100,5 @@ public class ProductInfo
     public string short_Descritption { get; set; }
     public string full_Descritption { get; set; }
     public string tags { get; set; }
-    public string prefabAdress { get; set; }
+    public string prefabPath { get; set; }
 }

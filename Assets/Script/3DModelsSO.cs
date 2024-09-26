@@ -16,4 +16,5 @@ public class SpawnManagerScriptableObject : ScriptableObject
     public string modelID;
     public int productID;
     public string productCategory;
+    public string prefabPath;
 }
