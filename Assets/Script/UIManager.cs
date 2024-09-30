@@ -940,7 +940,8 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    UserData userData = new UserData();
+                    //legacy
+                    /*UserData userData = new UserData();
                     userData.firstName = firstNameTextfield.text;
                     userData.lastName = lastNameTextfield.text;
                     userData.birthDate = birthdateTextfield.text;
@@ -951,7 +952,21 @@ public class UIManager : MonoBehaviour
                     userData.email = emailTexfield.text;
                     userData.password = passwordTexfield.text;
 
-                    PlayfabManager.instance.OnRegister(userData);
+                    PlayfabManager.instance.OnRegister(userData);*/
+
+                    ClientData clientData = new ClientData();
+
+                    clientData.first_name = firstNameTextfield.text;
+                    clientData.last_name = lastNameTextfield.text;
+                    clientData.birthdate = birthdateTextfield.text;
+                    clientData.address = adressTextfield.text;
+                    clientData.zip_code = zIPCodeTextfield.text;
+                    clientData.city = cityTexfield.text;
+                    clientData.phone_number = phoneNumberTexfield.text;
+                    clientData.email = emailTexfield.text;
+                    clientData.password = passwordTexfield.text;
+
+                    StartCoroutine(APIManager.instance.SendRequest(clientData));
                     break;
                 }
             }

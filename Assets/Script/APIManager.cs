@@ -27,17 +27,17 @@ public class APIManager : MonoBehaviour
 
     void Start()
     {
-        string url = "http://localhost/MYG/index.php?fullproductinfo=Double%20Bed";
-        StartCoroutine(GetRequest(url));
+        string urlGet = "http://localhost/MYG/index.php?fullproductinfo=Double%20Bed";
+        StartCoroutine(GetRequest(urlGet));
     }
 
-    IEnumerator GetRequest(string uri)
+    IEnumerator GetRequest(string url)
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
 
-            string[] pages = uri.Split('/');
+            string[] pages = url.Split('/');
             int page = pages.Length - 1;
 
             switch (webRequest.result)
@@ -73,6 +73,32 @@ public class APIManager : MonoBehaviour
         }
     }
 
+    public IEnumerator SendRequest(ClientData clientData)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("first_name", clientData.first_name));
+        formData.Add(new MultipartFormDataSection("last_name", clientData.last_name));
+        formData.Add(new MultipartFormDataSection("email", clientData.email));
+        formData.Add(new MultipartFormDataSection("password", clientData.password));
+        formData.Add(new MultipartFormDataSection("address", clientData.address));
+        formData.Add(new MultipartFormDataSection("zip_code", clientData.zip_code));
+        formData.Add(new MultipartFormDataSection("city", clientData.city));
+        formData.Add(new MultipartFormDataSection("birthdate", clientData.birthdate));
+        formData.Add(new MultipartFormDataSection("phone_number", clientData.phone_number));
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+    }
+
     void SetupSO(ProductInfo productInfo)
     {
         SpawnManagerScriptableObject newScriptableObject = ScriptableObject.CreateInstance<SpawnManagerScriptableObject>();
@@ -101,4 +127,17 @@ public class ProductInfo
     public string full_Descritption { get; set; }
     public string tags { get; set; }
     public string prefabPath { get; set; }
+}
+
+public class ClientData
+{
+    public string first_name { get; set; }
+    public string last_name { get; set; }
+    public string email { get; set; }
+    public string password { get; set; }
+    public string address { get; set; }
+    public string zip_code { get; set; }
+    public string city { get; set; }
+    public string birthdate { get; set; }
+    public string phone_number { get; set; }
 }
