@@ -166,7 +166,7 @@ public class PlayfabManager : MonoBehaviour
         return tsk.Task;
     }
 
-    void OnCartLoaded(GetUserDataResult result)
+    void OnCartLoaded(GetUserDataResult result)//legacy
     {
         cartInfo.Clear();
 

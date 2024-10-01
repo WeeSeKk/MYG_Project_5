@@ -76,6 +76,7 @@ public class APIManager : MonoBehaviour
     public IEnumerator SendRequest(ClientData clientData)
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("action=register"));
         formData.Add(new MultipartFormDataSection("first_name", clientData.first_name));
         formData.Add(new MultipartFormDataSection("last_name", clientData.last_name));
         formData.Add(new MultipartFormDataSection("email", clientData.email));
@@ -89,6 +90,8 @@ public class APIManager : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
         yield return www.SendWebRequest();
 
+        
+
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log(www.error);
@@ -97,6 +100,13 @@ public class APIManager : MonoBehaviour
         {
             Debug.Log("Form upload complete!");
         }
+
+        /*JArray jArray = JArray.Parse(www.downloadHandler.text);
+
+        foreach (JObject keys in jArray)
+        {
+            Debug.Log(keys);
+        }*/
     }
 
     void SetupSO(ProductInfo productInfo)
