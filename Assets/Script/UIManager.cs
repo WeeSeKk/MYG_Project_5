@@ -98,7 +98,6 @@ public class UIManager : MonoBehaviour
     Button saveChangeButton;
     Button adminEditButton;
     TextField mainPageTextfield;
-    bool admin;
     string _productID;
     int modelID;
     int containerCategoryHeight;
@@ -348,13 +347,17 @@ public class UIManager : MonoBehaviour
         }*/
     }
 
-    void ShowAdminView()
+    public void ShowAdminView(bool admin)
     {
         if (admin) {
             adminViewProductPage.style.display = DisplayStyle.Flex;
+            adminEditButton.style.display = DisplayStyle.Flex;
+            adminSaveButton.style.display = DisplayStyle.Flex;
         }
         else {
             adminViewProductPage.style.display = DisplayStyle.None;
+            adminEditButton.style.display = DisplayStyle.None;
+            adminSaveButton.style.display = DisplayStyle.None;
         }
     }
 

@@ -145,8 +145,16 @@ public class APIManager : MonoBehaviour
 
             if (resultString.Contains("Success: True"))
             {
-
                 uIManager.ShowHideLoginInfo(clientData.email);
+
+                if (resultString.Contains("Role: admin")) {
+                    Debug.Log("This Account is an admin");
+                    uIManager.ShowAdminView(true);
+                }
+                else {
+                    Debug.Log("This Account is not an admin");
+                    uIManager.ShowAdminView(false);
+                }
             }
             else
             {
