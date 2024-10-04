@@ -85,13 +85,20 @@ public class UIManager : MonoBehaviour
     TextField zIPCodeTextfieldAccount;
     TextField cityTexfieldAccount;
     TextField phoneNumberTexfieldAccount;
+    TextField adminProductNameTextfield;
+    TextField adminProductPriceTextfield;
+    TextField adminProductDescriptionTextfield;
     Button loginButtonLoginView;
     Button searchButton;
+    Button adminSaveButton;
     VisualElement yourAccountView;
+    VisualElement adminViewProductPage;
     Button yourAccountButton;
     Button returnButtonAccount;
     Button saveChangeButton;
+    Button adminEditButton;
     TextField mainPageTextfield;
+    bool admin;
     string _productID;
     int modelID;
     int containerCategoryHeight;
@@ -165,6 +172,13 @@ public class UIManager : MonoBehaviour
         searchButton = root.Q<Button>("SearchButton");
         mainPageTextfield = root.Q<TextField>("MainPageTextfield");
 
+        adminViewProductPage = root.Q<VisualElement>("AdminViewProductPage");
+        adminProductNameTextfield = root.Q<TextField>("AdminProductNameTextfield");
+        adminProductPriceTextfield = root.Q<TextField>("AdminProductPriceTextfield");
+        adminProductDescriptionTextfield = root.Q<TextField>("AdminProductDescriptionTextfield");
+        adminEditButton = root.Q<Button>("AdminEditButton");
+        adminSaveButton = root.Q<Button>("AdminSaveButton");
+
         firstNameTextfieldAccount = root.Q<TextField>("FirstNameTextfieldAccount");
         lastNameTextfieldAccount = root.Q<TextField>("LastNameTextfieldAccount");
         birthdateTextfieldAccount = root.Q<TextField>("BirthdateTextfieldAccount");
@@ -175,6 +189,19 @@ public class UIManager : MonoBehaviour
 
         //AddTemplateToGrid();
         AddCategoryToList();
+        //admin = true;
+        
+        adminEditButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            AdminEditProductPage();
+        });
+
+        adminSaveButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            StartCoroutine(APIManager.instance.EditProductInfo(adminProductNameTextfield.text, adminProductDescriptionTextfield.text, adminProductPriceTextfield.text, modelID));
+        });
+
+
 
         searchButton.RegisterCallback<ClickEvent>(evt =>
         {
@@ -319,6 +346,35 @@ public class UIManager : MonoBehaviour
                 cartScrollView.style.display = DisplayStyle.None;
             }
         }*/
+    }
+
+    void ShowAdminView()
+    {
+        if (admin) {
+            adminViewProductPage.style.display = DisplayStyle.Flex;
+        }
+        else {
+            adminViewProductPage.style.display = DisplayStyle.None;
+        }
+    }
+
+    void AdminEditProductPage()
+    {
+        if (adminProductDescriptionTextfield.style.display == DisplayStyle.None) {
+            adminProductDescriptionTextfield.style.display = DisplayStyle.Flex;
+            adminProductNameTextfield.style.display = DisplayStyle.Flex;
+            adminProductPriceTextfield.style.display = DisplayStyle.Flex;
+
+            adminProductNameTextfield.value = productName.text;
+            adminProductPriceTextfield.value = productPrice.text.Substring(0, productPrice.text.Length - 1);
+            adminProductDescriptionTextfield.value = productDescription.text;
+        
+        }
+        else {
+            adminProductDescriptionTextfield.style.display = DisplayStyle.None;
+            adminProductNameTextfield.style.display = DisplayStyle.None;
+            adminProductPriceTextfield.style.display = DisplayStyle.None;
+        }
     }
 
     void LoginUser()

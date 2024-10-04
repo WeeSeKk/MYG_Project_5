@@ -310,3 +310,18 @@
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
 }
+
+#AdminProductDescriptionTextfield #unity-text-input {
+    -unity-text-align: upper-left;
+    white-space: normal;
+}
+
+#AdminProductDescriptionTextfield TextElement {
+    display: flex;
+    position: absolute;
+    white-space: normal;
+    left: 2%;
+    top: 0;
+    right: 2%;
+    bottom: 0;
+}

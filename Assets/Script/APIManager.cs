@@ -112,11 +112,13 @@ public class APIManager : MonoBehaviour
 
             //if register succes then login 
 
-            if (resultString.Contains("Success: True")) {
-                
+            if (resultString.Contains("Success: True"))
+            {
+
                 StartCoroutine(SendRequest(clientData, "login"));
             }
-            else {
+            else
+            {
                 //show error message
             }
         }
@@ -141,14 +143,41 @@ public class APIManager : MonoBehaviour
 
             Debug.Log(resultString);
 
-            if (resultString.Contains("Success: True")) {
-                
+            if (resultString.Contains("Success: True"))
+            {
+
                 uIManager.ShowHideLoginInfo(clientData.email);
             }
-            else {
+            else
+            {
                 //show error message
             }
         }
+    }
+
+    public IEnumerator EditProductInfo(string productName, string productDescription, string productPrice, int productID)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("action", "editproduct"));
+        formData.Add(new MultipartFormDataSection("productName", productName));
+        formData.Add(new MultipartFormDataSection("productDescription", productDescription));
+        formData.Add(new MultipartFormDataSection("productPrice", productPrice));
+        formData.Add(new MultipartFormDataSection("productID", productID.ToString()));
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+        yield return www.SendWebRequest();
+
+        Debug.Log(www.downloadHandler.text);
+        /*
+        JObject jsonResponse = JObject.Parse(www.downloadHandler.text);
+        string resultString = "";
+        foreach (var key in jsonResponse)
+        {
+            resultString += $"{key.Key}: {key.Value}\n";
+        }
+
+        Debug.Log(resultString);*/
+
     }
 
     void SetupSO(ProductInfo productInfo)
