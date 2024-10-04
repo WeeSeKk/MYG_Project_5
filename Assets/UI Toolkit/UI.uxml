@@ -34,8 +34,9 @@
                 <ui:Label tabindex="-1" text="MYG Project 5" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 79px;" />
             </ui:VisualElement>
             <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReturnButtonLogin" style="position: absolute; left: 0; top: 0; right: 77%; bottom: 91%; background-image: url(&quot;project://database/Assets/Custom/4039_13064.png?fileID=2800000&amp;guid=a929cbb72ed64a34aaf2fc514435ade1&amp;type=3#4039_13064&quot;); background-color: rgba(255, 255, 255, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); -unity-background-image-tint-color: rgb(101, 85, 143);" />
+            <ui:Label tabindex="-1" text="Password Incorect" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ErrorLonginViewLabel" style="position: absolute; left: 0; top: 59%; right: 0; bottom: 26%; -unity-text-align: middle-center; font-size: 89px; color: rgb(255, 0, 0);" />
         </ui:VisualElement>
-        <ui:VisualElement name="RegisterView" class="LoginViewBase LoginViewHidden" style="display: flex; transition-duration: 1s;">
+        <ui:VisualElement name="RegisterView" class="LoginViewBase LoginViewHidden" style="display: flex; transition-duration: 1s; overflow: visible;">
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; display: flex;">
                 <ui:TextField picking-mode="Ignore" name="FirstNameTextfield" style="position: absolute; left: 10%; top: 23%; right: 10%; bottom: 70%; font-size: 70px; overflow: visible;">
                     <ui:Label tabindex="-1" text="First name" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 0; top: -75%; right: 0; bottom: 100%; font-size: 50px; -unity-text-align: middle-left;" />
@@ -72,6 +73,7 @@
                 <ui:VisualElement style="flex-grow: 1; position: absolute; left: 20%; top: 7%; right: 20%; bottom: 87%; background-color: rgb(101, 85, 143); border-top-left-radius: 60px; border-top-right-radius: 60px; border-bottom-right-radius: 60px; border-bottom-left-radius: 60px;">
                     <ui:Label tabindex="-1" text="MYG Project 5" parse-escape-sequences="true" display-tooltip-when-elided="true" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 79px;" />
                 </ui:VisualElement>
+                <ui:Label tabindex="-1" text="Password Incorect" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ErrorLonginViewLabel" style="position: absolute; left: 0; top: 143%; right: 0; bottom: -52%; -unity-text-align: middle-center; font-size: 89px; color: rgb(255, 0, 0);" />
                 <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReturnButtonRegister" style="position: absolute; left: 0; top: 0; right: 77%; bottom: 91%; background-image: url(&quot;project://database/Assets/Custom/4039_13064.png?fileID=2800000&amp;guid=a929cbb72ed64a34aaf2fc514435ade1&amp;type=3#4039_13064&quot;); background-color: rgba(255, 255, 255, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); -unity-background-image-tint-color: rgb(101, 85, 143);" />
                 <ui:VisualElement style="flex-grow: 1; background-color: rgba(255, 255, 255, 0); background-image: none; position: absolute; left: 10%; top: 158%; right: 10%; bottom: -63%;" />
             </ui:ScrollView>
@@ -171,7 +173,7 @@
             <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="CloseARListButton" style="position: absolute; left: 81%; top: 6%; right: 5%; bottom: 86%; background-image: url(&quot;project://database/Assets/_Heathen%20Engineering/Assets/UX/Icons/Flat%20Icons%20[Free]/Free%20Flat%20Arrow%201%20S%20Icon.png?fileID=2800000&amp;guid=d1c17021ca3abd240940b57bdb8a735b&amp;type=3#Free Flat Arrow 1 S Icon&quot;); background-color: rgba(0, 0, 0, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); -unity-background-image-tint-color: rgb(0, 0, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="LoadingView" picking-mode="Ignore" class="LoadingViewVisible LoadingViewHidden" style="display: flex;">
-        <ui:Label tabindex="-1" text="Loading ..." parse-escape-sequences="true" display-tooltip-when-elided="true" picking-mode="Ignore" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; color: rgb(255, 255, 255); font-size: 150px; -unity-text-align: middle-center; background-color: rgb(251, 220, 255);" />
+    <ui:VisualElement name="LoadingView" picking-mode="Ignore" class="LoadingViewVisible LoadingViewHidden" style="display: none;">
+        <ui:Label tabindex="-1" text="Loading ..." parse-escape-sequences="true" display-tooltip-when-elided="true" picking-mode="Ignore" style="position: absolute; left: 0; top: -2px; right: 0; bottom: 3px; color: rgb(255, 255, 255); font-size: 150px; -unity-text-align: middle-center; background-color: rgb(251, 220, 255);" />
     </ui:VisualElement>
 </ui:UXML>

@@ -73,40 +73,82 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    public IEnumerator SendRequest(ClientData clientData)
+    public IEnumerator SendRequest(ClientData clientData, string action)
     {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        formData.Add(new MultipartFormDataSection("action=register"));
-        formData.Add(new MultipartFormDataSection("first_name", clientData.first_name));
-        formData.Add(new MultipartFormDataSection("last_name", clientData.last_name));
-        formData.Add(new MultipartFormDataSection("email", clientData.email));
-        formData.Add(new MultipartFormDataSection("password", clientData.password));
-        formData.Add(new MultipartFormDataSection("address", clientData.address));
-        formData.Add(new MultipartFormDataSection("zip_code", clientData.zip_code));
-        formData.Add(new MultipartFormDataSection("city", clientData.city));
-        formData.Add(new MultipartFormDataSection("birthdate", clientData.birthdate));
-        formData.Add(new MultipartFormDataSection("phone_number", clientData.phone_number));
-
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
-        yield return www.SendWebRequest();
-
-        
-
-        if (www.result != UnityWebRequest.Result.Success)
+        if (action == "register")
         {
-            Debug.Log(www.error);
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+            formData.Add(new MultipartFormDataSection("action", "register"));
+            formData.Add(new MultipartFormDataSection("first_name", clientData.first_name));
+            formData.Add(new MultipartFormDataSection("last_name", clientData.last_name));
+            formData.Add(new MultipartFormDataSection("email", clientData.email));
+            formData.Add(new MultipartFormDataSection("password", clientData.password));
+            formData.Add(new MultipartFormDataSection("address", clientData.address));
+            formData.Add(new MultipartFormDataSection("zip_code", clientData.zip_code));
+            formData.Add(new MultipartFormDataSection("city", clientData.city));
+            formData.Add(new MultipartFormDataSection("birthdate", clientData.birthdate));
+            formData.Add(new MultipartFormDataSection("phone_number", clientData.phone_number));
+
+            UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+
+            JObject jsonResponse = JObject.Parse(www.downloadHandler.text);
+            string resultString = "";
+            foreach (var key in jsonResponse)
+            {
+                resultString += $"{key.Key}: {key.Value}\n";
+            }
+
+            Debug.Log(resultString);
+
+            //if register succes then login 
+
+            if (resultString.Contains("Success: True")) {
+                
+                StartCoroutine(SendRequest(clientData, "login"));
+            }
+            else {
+                //show error message
+            }
         }
-        else
+        else if (action == "login")
         {
-            Debug.Log("Form upload complete!");
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+            formData.Add(new MultipartFormDataSection("action", "login"));
+            formData.Add(new MultipartFormDataSection("email", clientData.email));
+            formData.Add(new MultipartFormDataSection("password", clientData.password));
+
+            Debug.Log(clientData.email + " " + clientData.password);
+
+            UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+            yield return www.SendWebRequest();
+
+            JObject jsonResponse = JObject.Parse(www.downloadHandler.text);
+            string resultString = "";
+            foreach (var key in jsonResponse)
+            {
+                resultString += $"{key.Key}: {key.Value}\n";
+            }
+
+            Debug.Log(resultString);
+
+            if (resultString.Contains("Success: True")) {
+                
+                uIManager.ShowHideLoginInfo(clientData.email);
+            }
+            else {
+                //show error message
+            }
         }
-
-        /*JArray jArray = JArray.Parse(www.downloadHandler.text);
-
-        foreach (JObject keys in jArray)
-        {
-            Debug.Log(keys);
-        }*/
     }
 
     void SetupSO(ProductInfo productInfo)

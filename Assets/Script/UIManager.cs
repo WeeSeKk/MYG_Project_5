@@ -285,7 +285,8 @@ public class UIManager : MonoBehaviour
 
         loginButtonLoginView.RegisterCallback<ClickEvent>(evt =>
         {
-            PlayfabManager.instance.OnLogin(emailTexfieldLogin.text, passwordTexfieldLogin.text);
+            //PlayfabManager.instance.OnLogin(emailTexfieldLogin.text, passwordTexfieldLogin.text); legacy
+            LoginUser();
         });
 
         addToCartButton.RegisterCallback<ClickEvent>(evt =>
@@ -318,6 +319,16 @@ public class UIManager : MonoBehaviour
                 cartScrollView.style.display = DisplayStyle.None;
             }
         }*/
+    }
+
+    void LoginUser()
+    {
+        ClientData clientData = new ClientData();
+
+        clientData.email = emailTexfieldLogin.text;
+        clientData.password = passwordTexfieldLogin.text;
+
+        StartCoroutine(APIManager.instance.SendRequest(clientData, "login"));
     }
 
     void OnButtonClick(Button button)
@@ -966,7 +977,7 @@ public class UIManager : MonoBehaviour
                     clientData.email = emailTexfield.text;
                     clientData.password = passwordTexfield.text;
 
-                    StartCoroutine(APIManager.instance.SendRequest(clientData));
+                    StartCoroutine(APIManager.instance.SendRequest(clientData, "register"));
                     break;
                 }
             }
