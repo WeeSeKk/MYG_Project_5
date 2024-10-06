@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class APIManager : MonoBehaviour
     [SerializeField] UIManager uIManager;
     public static APIManager instance;
     public List<SpawnManagerScriptableObject> scriptableObjects;
+    public List<int> cartInfo = new List<int>();
+    public bool loggedIn;
 
     void Awake()
     {
@@ -25,13 +28,14 @@ public class APIManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    void Start()
+    async void Start()
     {
         string urlGet = "http://localhost/MYG/index.php?fullproductinfo=Double%20Bed";
-        StartCoroutine(GetRequest(urlGet));
+        await GetRequestAsync(urlGet);
+        uIManager.AddTemplateToGrid();
     }
 
-    IEnumerator GetRequest(string url)
+    /*IEnumerator GetRequest(string url)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -67,6 +71,54 @@ public class APIManager : MonoBehaviour
                 productInfo.full_Descritption = keys.GetValue("Full_Descritption").ToString();
                 productInfo.tags = keys.GetValue("Tags").ToString();
                 productInfo.prefabPath = keys.GetValue("Prefab").ToString();
+
+                SetupSO(productInfo);
+            }
+        }
+    }*/
+
+    public async Task GetRequestAsync(string url)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            var operation = webRequest.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+                await Task.Yield();
+            }
+
+            string[] pages = url.Split('/');
+            int page = pages.Length - 1;
+
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                    return; // Sortir si erreur
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                    return; // Sortir si erreur
+                case UnityWebRequest.Result.Success:
+                    Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+                    break;
+            }
+
+            JArray jArray = JArray.Parse(webRequest.downloadHandler.text);
+
+            foreach (JObject keys in jArray)
+            {
+                ProductInfo productInfo = new ProductInfo
+                {
+                    product_ID = (int)keys.GetValue("Product_ID"),
+                    product_Name = keys.GetValue("Product_Name").ToString(),
+                    price = (int)keys.GetValue("Price"),
+                    short_Descritption = keys.GetValue("Short_Descritption").ToString(),
+                    full_Descritption = keys.GetValue("Full_Descritption").ToString(),
+                    tags = keys.GetValue("Tags").ToString(),
+                    prefabPath = keys.GetValue("Prefab").ToString()
+                };
 
                 SetupSO(productInfo);
             }
@@ -146,18 +198,24 @@ public class APIManager : MonoBehaviour
             if (resultString.Contains("Success: True"))
             {
                 uIManager.ShowHideLoginInfo(clientData.email);
+                StartCoroutine(GetCartContent(clientData.email));
+                loggedIn = true;
 
-                if (resultString.Contains("Role: admin")) {
+                if (resultString.Contains("Role: admin"))
+                {
                     Debug.Log("This Account is an admin");
                     uIManager.ShowAdminView(true);
                 }
-                else {
+                else
+                {
                     Debug.Log("This Account is not an admin");
                     uIManager.ShowAdminView(false);
                 }
             }
             else
             {
+                string errorMessage = (string)jsonResponse["Error Message"];
+                StartCoroutine(uIManager.ShowHideErrorMessages(errorMessage));
                 //show error message
             }
         }
@@ -188,6 +246,72 @@ public class APIManager : MonoBehaviour
 
     }
 
+    public IEnumerator GetCartContent(string email)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("action", "getCartContent"));
+        formData.Add(new MultipartFormDataSection("email", email));
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+        yield return www.SendWebRequest();
+
+        JObject jsonResponse = JObject.Parse(www.downloadHandler.text);
+
+        string itemsIdString = (string)jsonResponse["CartContent"];
+
+        string[] stringArray = itemsIdString.Split(',');
+
+        foreach (string number in stringArray)
+        {
+            cartInfo.Add(int.Parse(number));
+        }
+
+        uIManager.SetupCartView(itemsIdString);
+    }
+
+    public IEnumerator UpdateCart(string modelID, string email, bool remove)
+    {
+        if (!remove)
+        {
+            string cartInfoString = "";
+
+            foreach (int num in cartInfo)
+            {
+                cartInfoString += num.ToString();
+                cartInfoString += ",";
+            }
+
+            cartInfoString += modelID;
+            cartInfo.Add(int.Parse(modelID));
+
+
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+            formData.Add(new MultipartFormDataSection("action", "updateCart"));
+            formData.Add(new MultipartFormDataSection("email", email));
+            formData.Add(new MultipartFormDataSection("cart_content", cartInfoString));
+
+            UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+            yield return www.SendWebRequest();
+
+            Debug.Log(www.downloadHandler.text);
+
+            uIManager.SetupCartView(cartInfoString);
+        }
+        else
+        {
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+            formData.Add(new MultipartFormDataSection("action", "updateCart"));
+            formData.Add(new MultipartFormDataSection("email", email));
+            formData.Add(new MultipartFormDataSection("cart_content", modelID));
+
+            UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+            yield return www.SendWebRequest();
+
+            Debug.Log(www.downloadHandler.text);
+        }
+    }
+
+
     void SetupSO(ProductInfo productInfo)
     {
         SpawnManagerScriptableObject newScriptableObject = ScriptableObject.CreateInstance<SpawnManagerScriptableObject>();
@@ -203,7 +327,13 @@ public class APIManager : MonoBehaviour
         Addressables.LoadAssetAsync<GameObject>(productInfo.prefabPath);
 
         scriptableObjects.Add(newScriptableObject);
-        uIManager.AddTemplateToGrid();
+        //uIManager.AddTemplateToGrid();
+    }
+
+    public void Disconnect()
+    {
+        loggedIn = false;
+        uIManager.ShowHideLoginInfo(null);
     }
 }
 

@@ -95,6 +95,7 @@ public class UIManager : MonoBehaviour
     VisualElement adminViewProductPage;
     Button yourAccountButton;
     Button returnButtonAccount;
+    Button disconnectButton;
     Button saveChangeButton;
     Button adminEditButton;
     TextField mainPageTextfield;
@@ -177,6 +178,7 @@ public class UIManager : MonoBehaviour
         adminProductDescriptionTextfield = root.Q<TextField>("AdminProductDescriptionTextfield");
         adminEditButton = root.Q<Button>("AdminEditButton");
         adminSaveButton = root.Q<Button>("AdminSaveButton");
+        disconnectButton = root.Q<Button>("DisconnectButton");
 
         firstNameTextfieldAccount = root.Q<TextField>("FirstNameTextfieldAccount");
         lastNameTextfieldAccount = root.Q<TextField>("LastNameTextfieldAccount");
@@ -189,7 +191,7 @@ public class UIManager : MonoBehaviour
         //AddTemplateToGrid();
         AddCategoryToList();
         //admin = true;
-        
+
         adminEditButton.RegisterCallback<ClickEvent>(evt =>
         {
             AdminEditProductPage();
@@ -200,7 +202,17 @@ public class UIManager : MonoBehaviour
             StartCoroutine(APIManager.instance.EditProductInfo(adminProductNameTextfield.text, adminProductDescriptionTextfield.text, adminProductPriceTextfield.text, modelID));
         });
 
+        disconnectButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            APIManager.instance.Disconnect();
+        });
 
+        var errorLabels = root.Query<Label>("ErrorLonginViewLabel").ToList();
+
+        foreach (var label in errorLabels)
+        {
+            label.text = "";
+        }
 
         searchButton.RegisterCallback<ClickEvent>(evt =>
         {
@@ -294,7 +306,7 @@ public class UIManager : MonoBehaviour
 
         cartButton.RegisterCallback<ClickEvent>(evt =>
         {
-            if (PlayfabManager.instance.loggedIn == true)
+            if (APIManager.instance.loggedIn == true)
             {
                 StartCoroutine(ShowHideCartView(cartButton));
             }
@@ -317,9 +329,9 @@ public class UIManager : MonoBehaviour
 
         addToCartButton.RegisterCallback<ClickEvent>(evt =>
         {
-            if (PlayfabManager.instance.loggedIn == true)
+            if (APIManager.instance.loggedIn == true)
             {
-                PlayfabManager.instance.OnAddedToCart(_productID);
+                StartCoroutine(APIManager.instance.UpdateCart(_productID, emailTexfieldLogin.text, false));
             }
             else
             {
@@ -328,33 +340,35 @@ public class UIManager : MonoBehaviour
         });
     }
 
-    void Update()
+    public IEnumerator ShowHideErrorMessages(string errorMessage)
     {
-        /*if (Input.GetKeyDown("space"))//test for debug
+        Debug.Log("inerrormessages");
+
+        var errorLabels = root.Query<Label>("ErrorLonginViewLabel").ToList();
+
+        foreach (var label in errorLabels)
         {
-            //PlayfabManager.instance. OnLoadingCart();
+            label.text = errorMessage;
         }
-        if (Input.GetKeyDown("w"))//test for debug
+
+        yield return new WaitForSeconds(2f);
+
+        foreach (var label in errorLabels)
         {
-            if (cartScrollView.style.display == DisplayStyle.None)
-            {
-                cartScrollView.style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                cartScrollView.style.display = DisplayStyle.None;
-            }
-        }*/
+            label.text = "";
+        }
     }
 
     public void ShowAdminView(bool admin)
     {
-        if (admin) {
+        if (admin)
+        {
             adminViewProductPage.style.display = DisplayStyle.Flex;
             adminEditButton.style.display = DisplayStyle.Flex;
             adminSaveButton.style.display = DisplayStyle.Flex;
         }
-        else {
+        else
+        {
             adminViewProductPage.style.display = DisplayStyle.None;
             adminEditButton.style.display = DisplayStyle.None;
             adminSaveButton.style.display = DisplayStyle.None;
@@ -363,7 +377,8 @@ public class UIManager : MonoBehaviour
 
     void AdminEditProductPage()
     {
-        if (adminProductDescriptionTextfield.style.display == DisplayStyle.None) {
+        if (adminProductDescriptionTextfield.style.display == DisplayStyle.None)
+        {
             adminProductDescriptionTextfield.style.display = DisplayStyle.Flex;
             adminProductNameTextfield.style.display = DisplayStyle.Flex;
             adminProductPriceTextfield.style.display = DisplayStyle.Flex;
@@ -371,9 +386,10 @@ public class UIManager : MonoBehaviour
             adminProductNameTextfield.value = productName.text;
             adminProductPriceTextfield.value = productPrice.text.Substring(0, productPrice.text.Length - 1);
             adminProductDescriptionTextfield.value = productDescription.text;
-        
+
         }
-        else {
+        else
+        {
             adminProductDescriptionTextfield.style.display = DisplayStyle.None;
             adminProductNameTextfield.style.display = DisplayStyle.None;
             adminProductPriceTextfield.style.display = DisplayStyle.None;
@@ -430,25 +446,26 @@ public class UIManager : MonoBehaviour
     public void AddTemplateToGrid()
     {
         _0gridContainer.style.display = DisplayStyle.None;
+        foreach (ScriptableObject scriptableObject in APIManager.instance.scriptableObjects)
+        {
+            VisualElement templateInstance = productTemplate.Instantiate();
+            VisualElement templateInstanceAR = productTemplateAR.Instantiate();
 
-        VisualElement templateInstance = productTemplate.Instantiate();
-        VisualElement templateInstanceAR = productTemplateAR.Instantiate();
+            templateInstance.style.width = new Length(50, LengthUnit.Percent);
+            templateInstance.style.height = new Length(40, LengthUnit.Percent);
+            templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-        templateInstance.style.width = new Length(50, LengthUnit.Percent);
-        templateInstance.style.height = new Length(40, LengthUnit.Percent);
-        templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
+            templateInstanceAR.style.width = new Length(100, LengthUnit.Percent);
+            templateInstanceAR.style.height = new Length(30, LengthUnit.Percent);
+            templateInstanceAR.transform.scale = new Vector3(1f, 1f, 1.0f);
 
-        templateInstanceAR.style.width = new Length(100, LengthUnit.Percent);
-        templateInstanceAR.style.height = new Length(30, LengthUnit.Percent);
-        templateInstanceAR.transform.scale = new Vector3(1f, 1f, 1.0f);
+            AddInfoToTemplate(templateInstance, templateInstanceAR);
+            _0gridContainer.Add(templateInstance);
+            scrollListAR.Add(templateInstanceAR);
 
-        AddInfoToTemplate(templateInstance, templateInstanceAR);
-        _0gridContainer.Add(templateInstance);
-        scrollListAR.Add(templateInstanceAR);
-
+            SetupButtons(1);
+        }
         _0gridContainer.style.display = DisplayStyle.Flex;
-
-        SetupButtons(1);
     }
 
     void UpdateMainGrid(string category, bool textfield)
@@ -568,6 +585,7 @@ public class UIManager : MonoBehaviour
 
     public void SetupCartView(string items)
     {
+        Debug.Log(items);
         cartScrollView.style.display = DisplayStyle.None;
         float cartViewHeight = 0;
 
@@ -656,25 +674,29 @@ public class UIManager : MonoBehaviour
         {
             if (cartScrollView[i] == grandGrandParent)
             {
-                //modify string and remove item from API
-                string[] stringArray = PlayfabManager.instance.cartInfoString.Split(',');
-                List<string> newStringList = new List<string>();
+                string cartInfoString = "";
 
-                foreach (string num in stringArray)
+                List<int> updatedCartInfo = new List<int>();
+
+                foreach (int num in APIManager.instance.cartInfo)
                 {
-                    if (num != productID.text)
+                    if (num != int.Parse(productID.text))
                     {
-                        newStringList.Add(num);
+                        updatedCartInfo.Add(num);
+                        cartInfoString += num.ToString();
+                        cartInfoString += ",";
                     }
                 }
-                string newCartInfoString = string.Join(",", newStringList);
 
-                PlayfabManager.instance.UpdateCartInfo(newCartInfoString);
+                APIManager.instance.cartInfo.Clear();
+                APIManager.instance.cartInfo = updatedCartInfo;
 
+                cartInfoString = cartInfoString.Substring(0, cartInfoString.Length - 1);
+
+                StartCoroutine(APIManager.instance.UpdateCart(cartInfoString, emailTexfieldLogin.text, true));
                 break;
             }
         }
-
         cartScrollView.Remove(grandGrandParent);
     }
 
@@ -1083,17 +1105,39 @@ public class UIManager : MonoBehaviour
 
     public void ShowHideLoginInfo(string email)
     {
-        loginButtonsHolder.style.display = DisplayStyle.None;
-        loggedInEmailLabel.style.display = DisplayStyle.Flex;
-        loggedInEmailLabel.text = email;
+        if (email != null)
+        {
+            loginButtonsHolder.style.display = DisplayStyle.None;
+            loggedInEmailLabel.style.display = DisplayStyle.Flex;
+            loggedInEmailLabel.text = email;
 
-        if (!registerView.ClassListContains("LoginViewHidden"))
-        {
-            registerView.AddToClassList("LoginViewHidden");
+            if (!registerView.ClassListContains("LoginViewHidden"))
+            {
+                registerView.AddToClassList("LoginViewHidden");
+            }
+            if (!loginView.ClassListContains("LoginViewHidden"))
+            {
+                loginView.AddToClassList("LoginViewHidden");
+            }
         }
-        if (!loginView.ClassListContains("LoginViewHidden"))
+        else
         {
-            loginView.AddToClassList("LoginViewHidden");
+            loginButtonsHolder.style.display = DisplayStyle.Flex;
+            loggedInEmailLabel.style.display = DisplayStyle.None;
+
+            if (!registerView.ClassListContains("LoginViewHidden"))
+            {
+                registerView.AddToClassList("LoginViewHidden");
+            }
+            if (!loginView.ClassListContains("LoginViewHidden"))
+            {
+                loginView.AddToClassList("LoginViewHidden");
+            }
+            if (!cartView.ClassListContains("LoginViewHidden"))
+            {
+                cartView.AddToClassList("LoginViewHidden");
+            }
+            ShowAdminView(false);
         }
     }
 }
