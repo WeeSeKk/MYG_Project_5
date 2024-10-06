@@ -6,6 +6,6 @@ https://drive.google.com/drive/folders/1l4uqKqHTHVUU04fdUH6YRrMyJmKst8NZ?usp=sha
 # PHP : (in : wamp64\www\MYG)
 [PHP.zip](https://github.com/user-attachments/files/17269272/PHP.zip)
 
-# DATABSE :
+# DATABASE :
 
 [myg_project_6_databse.zip](https://github.com/user-attachments/files/17269293/myg_project_6_databse.zip)
