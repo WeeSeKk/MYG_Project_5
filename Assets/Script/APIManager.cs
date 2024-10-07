@@ -35,48 +35,6 @@ public class APIManager : MonoBehaviour
         uIManager.AddTemplateToGrid();
     }
 
-    /*IEnumerator GetRequest(string url)
-    {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
-        {
-            yield return webRequest.SendWebRequest();
-
-            string[] pages = url.Split('/');
-            int page = pages.Length - 1;
-
-            switch (webRequest.result)
-            {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.Success:
-                    Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-                    break;
-            }
-
-            JArray jArray = JArray.Parse(webRequest.downloadHandler.text);
-
-            foreach (JObject keys in jArray)
-            {
-                ProductInfo productInfo = new ProductInfo();
-
-                productInfo.product_ID = (int)keys.GetValue("Product_ID");
-                productInfo.product_Name = keys.GetValue("Product_Name").ToString();
-                productInfo.price = (int)keys.GetValue("Price");
-                productInfo.short_Descritption = keys.GetValue("Short_Descritption").ToString();
-                productInfo.full_Descritption = keys.GetValue("Full_Descritption").ToString();
-                productInfo.tags = keys.GetValue("Tags").ToString();
-                productInfo.prefabPath = keys.GetValue("Prefab").ToString();
-
-                SetupSO(productInfo);
-            }
-        }
-    }*/
-
     public async Task GetRequestAsync(string url)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -199,6 +157,7 @@ public class APIManager : MonoBehaviour
             {
                 uIManager.ShowHideLoginInfo(clientData.email);
                 StartCoroutine(GetCartContent(clientData.email));
+                StartCoroutine(GetUserInfos(clientData.email));
                 loggedIn = true;
 
                 if (resultString.Contains("Role: admin"))
@@ -219,6 +178,55 @@ public class APIManager : MonoBehaviour
                 //show error message
             }
         }
+    }
+
+    public IEnumerator GetUserInfos(string email)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("action", "getaccountinfo"));
+        formData.Add(new MultipartFormDataSection("email", email));
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+        yield return www.SendWebRequest();
+
+        JObject jsonResponse = JObject.Parse(www.downloadHandler.text);
+        JObject userInfo = (JObject)jsonResponse["UserInfo"];
+
+        ClientData clientData = new ClientData
+        {
+            first_name = (string)userInfo.GetValue("FirstName"),
+            last_name = (string)userInfo.GetValue("LastName"),
+            email = (string)userInfo.GetValue("Email"),
+            password = (string)userInfo.GetValue("Password"),
+            address = (string)userInfo.GetValue("Address"),
+            zip_code = (string)userInfo.GetValue("ZIP_Code"),
+            city = (string)userInfo.GetValue("City"),
+            birthdate = (string)userInfo.GetValue("Birthdate"),
+            phone_number = (string)userInfo.GetValue("Phone_Number")
+        };
+        uIManager.SetupAccountInfos(clientData);
+        Debug.Log((string)userInfo.GetValue("FirstName"));
+    }
+
+    public IEnumerator UpdateUserInfos(ClientData clientData, string email)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("action", "updateaccountinfo"));
+        formData.Add(new MultipartFormDataSection("first_name", clientData.first_name));
+        formData.Add(new MultipartFormDataSection("last_name", clientData.last_name));
+        formData.Add(new MultipartFormDataSection("address", clientData.address));
+        formData.Add(new MultipartFormDataSection("zip_code", clientData.zip_code));
+        formData.Add(new MultipartFormDataSection("city", clientData.city));
+        formData.Add(new MultipartFormDataSection("birthdate", clientData.birthdate));
+        formData.Add(new MultipartFormDataSection("phone_number", clientData.phone_number));
+        formData.Add(new MultipartFormDataSection("email", email));
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/MYG/insert.php", formData);
+        yield return www.SendWebRequest();
+
+        //JObject jsonResponse = JObject.Parse(www.downloadHandler.text);
+
+        Debug.Log(www.downloadHandler.text);
     }
 
     public IEnumerator EditProductInfo(string productName, string productDescription, string productPrice, int productID)

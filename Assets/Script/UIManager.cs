@@ -236,7 +236,7 @@ public class UIManager : MonoBehaviour
 
         yourAccountButton.RegisterCallback<ClickEvent>(evt =>
         {
-            if (PlayfabManager.instance.loggedIn == true)
+            if (APIManager.instance.loggedIn == true)
             {
                 ShowHideAccountView();
             }
@@ -472,9 +472,9 @@ public class UIManager : MonoBehaviour
     {
         bool found = false;
 
-        for (int i = 0; i < AppManager.instance.scriptableObjects.Count; i++)
+        for (int i = 0; i < APIManager.instance.scriptableObjects.Count; i++)
         {
-            if (AppManager.instance.scriptableObjects[i].productCategory.Contains(category))
+            if (APIManager.instance.scriptableObjects[i].productCategory.Contains(category))
             {
                 found = true;
             }
@@ -493,7 +493,7 @@ public class UIManager : MonoBehaviour
 
             for (int i = 0; i < AppManager.instance.scriptableObjects.Count; i++)
             {
-                if (AppManager.instance.scriptableObjects[i].productCategory.Contains(category))
+                if (APIManager.instance.scriptableObjects[i].productCategory.Contains(category))
                 {
                     VisualElement templateInstance = productTemplate.Instantiate();
 
@@ -502,15 +502,15 @@ public class UIManager : MonoBehaviour
                     templateInstance.transform.scale = new Vector3(1f, 1f, 1.0f);
 
                     VisualElement productImage = templateInstance.Q<VisualElement>("ProductImage");
-                    productImage.style.backgroundImage = AppManager.instance.scriptableObjects[i].modelImage;
+                    productImage.style.backgroundImage = APIManager.instance.scriptableObjects[i].modelImage;
                     Label productID = templateInstance.Q<Label>("ProductID");
-                    productID.text = AppManager.instance.scriptableObjects[i].modelID;
+                    productID.text = APIManager.instance.scriptableObjects[i].modelID;
                     Label productName = templateInstance.Q<Label>("ProductName");
-                    productName.text = AppManager.instance.scriptableObjects[i].productName;
+                    productName.text = APIManager.instance.scriptableObjects[i].productName;
                     Label productDescription = templateInstance.Q<Label>("ProductDescription");
-                    productDescription.text = AppManager.instance.scriptableObjects[i].shortProductDescription;
+                    productDescription.text = APIManager.instance.scriptableObjects[i].shortProductDescription;
                     Label productPrice = templateInstance.Q<Label>("ProductPrice");
-                    productPrice.text = AppManager.instance.scriptableObjects[i].productPrice.ToString() + " $";
+                    productPrice.text = APIManager.instance.scriptableObjects[i].productPrice.ToString() + " $";
 
                     _0gridContainer.Add(templateInstance);
                 }
@@ -700,15 +700,16 @@ public class UIManager : MonoBehaviour
         cartScrollView.Remove(grandGrandParent);
     }
 
-    public void SetupAccountInfos(UserData userData)
+    public void SetupAccountInfos(ClientData clientData)
     {
-        firstNameTextfieldAccount.value = userData.firstName;
-        lastNameTextfieldAccount.value = userData.lastName;
-        birthdateTextfieldAccount.value = userData.birthDate;
-        adressTextfieldAccount.value = userData.address;
-        zIPCodeTextfieldAccount.value = userData.zipCode;
-        cityTexfieldAccount.value = userData.city;
-        phoneNumberTexfieldAccount.value = userData.phoneNumber;
+        //Debug.Log(clientData.first_name);
+        firstNameTextfieldAccount.value = clientData.first_name;
+        lastNameTextfieldAccount.value = clientData.last_name;
+        birthdateTextfieldAccount.value = clientData.birthdate;
+        adressTextfieldAccount.value = clientData.address;
+        zIPCodeTextfieldAccount.value = clientData.zip_code;
+        cityTexfieldAccount.value = clientData.city;
+        phoneNumberTexfieldAccount.value = clientData.phone_number;
     }
 
     void AddInfoToCartTemplate(VisualElement template, string modelID)
@@ -1032,20 +1033,6 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    //legacy
-                    /*UserData userData = new UserData();
-                    userData.firstName = firstNameTextfield.text;
-                    userData.lastName = lastNameTextfield.text;
-                    userData.birthDate = birthdateTextfield.text;
-                    userData.address = adressTextfield.text;
-                    userData.zipCode = zIPCodeTextfield.text;
-                    userData.city = cityTexfield.text;
-                    userData.phoneNumber = phoneNumberTexfield.text;
-                    userData.email = emailTexfield.text;
-                    userData.password = passwordTexfield.text;
-
-                    PlayfabManager.instance.OnRegister(userData);*/
-
                     ClientData clientData = new ClientData();
 
                     clientData.first_name = firstNameTextfield.text;
@@ -1077,22 +1064,26 @@ public class UIManager : MonoBehaviour
 
         foreach (TextField textField in userDataTextFields)
         {
-            if (textField.text == null)
+            if (string.IsNullOrEmpty(textField.text))
             {
                 OnUserDataError("Missing info");
+                StartCoroutine(ShowHideErrorMessages("Missing info"));
+                return;
             }
             else
             {
-                UserData userData = new UserData();
-                userData.firstName = firstNameTextfieldAccount.text;
-                userData.lastName = lastNameTextfieldAccount.text;
-                userData.birthDate = birthdateTextfieldAccount.text;
-                userData.address = adressTextfieldAccount.text;
-                userData.zipCode = zIPCodeTextfieldAccount.text;
-                userData.city = cityTexfieldAccount.text;
-                userData.phoneNumber = phoneNumberTexfieldAccount.text;
+                ClientData clientData = new ClientData();
 
-                PlayfabManager.instance.UpdateUserData(userData);
+                clientData.first_name = firstNameTextfieldAccount.text;
+                clientData.last_name = lastNameTextfieldAccount.text;
+                clientData.birthdate = birthdateTextfieldAccount.text;
+                clientData.address = adressTextfieldAccount.text;
+                clientData.zip_code = zIPCodeTextfieldAccount.text;
+                clientData.city = cityTexfieldAccount.text;
+                clientData.phone_number = phoneNumberTexfieldAccount.text;
+
+                StartCoroutine(APIManager.instance.UpdateUserInfos(clientData, loggedInEmailLabel.text));
+
                 break;
             }
         }

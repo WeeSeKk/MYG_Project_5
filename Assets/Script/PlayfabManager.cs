@@ -225,7 +225,7 @@ public class PlayfabManager : MonoBehaviour
         userData.city = result.Data["City"].Value;
         userData.phoneNumber = result.Data["PhoneNumber"].Value;
 
-        uIManager.SetupAccountInfos(userData);
+        //uIManager.SetupAccountInfos(userData);
     }
 
     public void UpdateUserData(UserData userData)
